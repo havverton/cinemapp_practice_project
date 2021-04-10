@@ -66,6 +66,8 @@ class _MovieCardWidgetState extends State<MovieCardWidget>{
 
             children: [
               Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                alignment: Alignment.centerLeft,
                 child: Text(
                   "$name",
                   style: TextStyle(
@@ -76,6 +78,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget>{
                 ),
               ),
               Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
                   "150 mins",
                   style: TextStyle(
@@ -107,87 +110,6 @@ class MovieCardWidget extends StatefulWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    /*return Card(
-        color: Color(0xFF191926),
-        child: Column(
-          children: [
-            Stack(
-               // fit: StackFit.loose,
-                alignment: AlignmentDirectional(-1, 1),
-                children: [
-                  DecoratedBox(
-                    child: Image.asset(
-                      "assets/images/tenet_poster.jpg",
-                      fit: BoxFit.fill,
-                    ),
-                    position: DecorationPosition.foreground,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.center,
-                            colors: [
-                              Color(0xFF191926),
-                              Color(0x55191926)
-                            ]
-                        )
-                    ),
-                  ),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Action",
-                        style: TextStyle(fontSize: 10, color: Color(0xFFFF3466)),
-
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.star,color: Color(0xFFFF3466)),
-                          Icon(Icons.star,color: Color(0xFFFF3466)),
-                          Icon(Icons.star,color: Color(0xFFFF3466)),
-                          Icon(Icons.star,color: Color(0xFFFF3466)),
-                          Icon(Icons.star,color: Color(0xFFFF3466)),
-                          Text("$reviews",
-                              style: TextStyle(fontSize: 10, color: Color(0xFFFF3466))
-                          )
-                        ],
-                      )
-                    ],
-                  )
-                ]),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-
-              children: [
-                Container(
-                  child: Text(
-                    "$_name",
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Text(
-                    "150 mins",
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Colors.blueGrey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-    );
-  }*/
 
 
   }

@@ -13,11 +13,12 @@ class Cinemapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(textTheme: Typography.whiteRedmond),
       home: Container(
         color: Color(0xFF191947),
         child: GridView.count(
           crossAxisCount: 2,
-          childAspectRatio: 0.55,
+          childAspectRatio: 0.58,
           children: [
             MovieCardWidget( "avengers", "12 reviews",),
             MovieCardWidget("ololo", "12 reviews",),
