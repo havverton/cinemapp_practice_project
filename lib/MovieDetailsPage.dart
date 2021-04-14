@@ -2,8 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'MovieCardWidget.dart';
+import 'models/MovieModel.dart';
 
 class MovieDetailsWidget extends StatelessWidget {
+  final Movie movie;
+
+  const MovieDetailsWidget({Key key, this.movie}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +48,7 @@ class MovieDetailsWidget extends StatelessWidget {
                   left: 16,
                   child: Container(
                     child: Text(
-                      "AVENGERS 4: ENDGAME ",
+                      "${movie.title}",
                       textDirection: TextDirection.ltr,
                       style: TextStyle(
                         fontSize: 40,
@@ -98,7 +103,7 @@ class MovieDetailsWidget extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold)),
                       Text(
-                          "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+                          "${movie.overview}",
                           style: TextStyle(fontSize: 14))
                     ],
                   ),
