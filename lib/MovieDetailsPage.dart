@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'MovieCardWidget.dart';
 import 'models/MovieModel.dart';
 
 class MovieDetailsWidget extends StatelessWidget {
@@ -68,7 +67,7 @@ class MovieDetailsWidget extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 4.0),
                   child: Text(
-                    "Action",
+                    "${getGenres(movie.genres)}",
                     style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFFFF3466),
@@ -88,7 +87,7 @@ class MovieDetailsWidget extends StatelessWidget {
                       Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
                       Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
                       Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
-                      Text("10 reviews",
+                      Text("${movie.voteCount} reviews",
                           style:
                               TextStyle(fontSize: 14, color: Color(0xFF6D6D80)))
                     ],
@@ -102,14 +101,12 @@ class MovieDetailsWidget extends StatelessWidget {
                       Text("STORYLINE",
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold)),
-                      Text(
-                          "${movie.overview}",
-                          style: TextStyle(fontSize: 14))
+                      Text("${movie.overview}", style: TextStyle(fontSize: 14))
                     ],
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 4,0,0),
+                  margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -125,7 +122,7 @@ class MovieDetailsWidget extends StatelessWidget {
                                 gridDelegate:
                                     SliverGridDelegateWithMaxCrossAxisExtent(
                                         maxCrossAxisExtent: 250,
-                                        childAspectRatio: 1.8 ,
+                                        childAspectRatio: 1.8,
                                         crossAxisSpacing: 10,
                                         mainAxisSpacing: 8),
                                 children: [
@@ -137,9 +134,7 @@ class MovieDetailsWidget extends StatelessWidget {
                                   ActorsCardWidget(),
                                   ActorsCardWidget(),
                                 ],
-                              )
-                          )
-                      ),
+                              ))),
                     ],
                   ),
                 )
@@ -149,6 +144,14 @@ class MovieDetailsWidget extends StatelessWidget {
         ],
       ),
     ));
+  }
+  String getGenres(List<Genre> list) {
+    final List<String> genres = [];
+    for (var genre in list) {
+      genres.add(genre.name);
+    }
+
+    return genres.join(", ");
   }
 }
 
@@ -164,8 +167,7 @@ class ActorsCardWidget extends StatelessWidget {
               aspectRatio: 1,
               child: DecoratedBox(
                 position: DecorationPosition.foreground,
-                decoration: new BoxDecoration(
-                ),
+                decoration: new BoxDecoration(),
                 child: Image.asset(
                   "assets/images/tenet_poster.jpg",
                   fit: BoxFit.fitWidth,
