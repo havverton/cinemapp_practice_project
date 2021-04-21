@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
+
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 
+import 'models/CreditsModel.dart';
 import 'models/MovieModel.dart';
 import 'models/MovieResponseModel.dart';
 
@@ -81,5 +83,22 @@ class MovieApi {
       movieList.add(answer);
     }
     return movieList;
+  }
+
+  static Future<List<Cast>> getMovieActors(int movieID) async{
+    final _authority = "api.themoviedb.org";
+    final _path = "3/movie/$movieID/credits";
+    final _params = {
+      "api_key": "6e466b67854a32b973cf8e3f9dc31068",
+      "language": "en-US",
+    };
+    final _uri = Uri.https(_authority, _path, _params);
+    final response = await http.get(_uri);
+    final body = json.decode(response.body);
+
+    var answer = Credits.fromJson(body);
+
+    return answer.cast;
+
   }
 }

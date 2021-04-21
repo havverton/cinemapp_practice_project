@@ -1,6 +1,8 @@
+import 'package:cinemapp_practice_project/MovieAPI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'models/CreditsModel.dart';
 import 'models/MovieModel.dart';
 
 class MovieDetailsWidget extends StatelessWidget {
@@ -34,9 +36,8 @@ class MovieDetailsWidget extends StatelessWidget {
                             Color(0xAA191926)
                           ]),
                     ),
-                    child: Image.asset(
-                      "assets/images/tenet_poster.jpg",
-                      fit: BoxFit.fitWidth,
+                    child: Image.network("https://image.tmdb.org/t/p/w500${movie.backdropPath}",
+                      fit: BoxFit.fitHeight,
                     ),
                   ),
                 ),
@@ -117,24 +118,7 @@ class MovieDetailsWidget extends StatelessWidget {
                           child: SizedBox(
                               width: double.infinity,
                               height: 150,
-                              child: GridView(
-                                scrollDirection: Axis.horizontal,
-                                gridDelegate:
-                                    SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 250,
-                                        childAspectRatio: 1.8,
-                                        crossAxisSpacing: 10,
-                                        mainAxisSpacing: 8),
-                                children: [
-                                  ActorsCardWidget(),
-                                  ActorsCardWidget(),
-                                  ActorsCardWidget(),
-                                  ActorsCardWidget(),
-                                  ActorsCardWidget(),
-                                  ActorsCardWidget(),
-                                  ActorsCardWidget(),
-                                ],
-                              ))),
+                              child: MovieCastWidget(movie.id))),
                     ],
                   ),
                 )
@@ -156,6 +140,11 @@ class MovieDetailsWidget extends StatelessWidget {
 }
 
 class ActorsCardWidget extends StatelessWidget {
+  Cast actor;
+  ActorsCardWidget(this.actor);
+
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -168,8 +157,7 @@ class ActorsCardWidget extends StatelessWidget {
               child: DecoratedBox(
                 position: DecorationPosition.foreground,
                 decoration: new BoxDecoration(),
-                child: Image.asset(
-                  "assets/images/tenet_poster.jpg",
+                child: Image.network("https://image.tmdb.org/t/p/w300${actor.profilePath}",
                   fit: BoxFit.fitWidth,
                 ),
               ),
@@ -177,12 +165,61 @@ class ActorsCardWidget extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 6.0),
-            child: Text("David Rubenstein"),
+            child: Text("${actor.name}"),
           )
         ],
       ),
     );
   }
-
-
 }
+class MovieCastWidget extends StatelessWidget {
+
+  int movieID;
+  MovieCastWidget(this.movieID);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child:FutureBuilder(
+        future: MovieApi.getMovieActors(this.movieID),
+        builder:(context, snapshot) {
+            final actors = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+              case ConnectionState.none:
+                print("no data");
+                break;
+              case ConnectionState.active:
+                print("no data1");
+                break;
+
+              case ConnectionState.done:
+                if (!snapshot.hasData) {
+                  print("YES YES YES ${snapshot.data}");
+                  return Text("No data");
+                } else {
+                  print("${actors.length}");
+                  return buildActors(actors);
+                }
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+
+      ),
+    );
+  }
+
+  Widget buildActors(List<Cast> actors) => GridView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: 10,
+      gridDelegate:
+      SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 250,
+          childAspectRatio: 1.8,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 8),
+      itemBuilder: (context, index) {
+        final actor = actors[index];
+        return ActorsCardWidget(actor);
+      },
+    );}

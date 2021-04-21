@@ -1,5 +1,7 @@
+import 'package:cinemapp_practice_project/MovieAPI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'MovieDetailsPage.dart';
 import 'models/MovieModel.dart';
@@ -14,17 +16,17 @@ class _MovieCardWidgetState2 extends State<MovieCardWidget2> {
     return  Container(
         width: 197,
         height: 296,
-        child: Card(
+        child: GestureDetector(
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MovieDetailsWidget(movie: movie,))),
+
+          child:Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
           margin: EdgeInsets.symmetric(horizontal: 7.0),
           color: Color(0xFF191926),
-          child: InkWell(
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MovieDetailsWidget(movie: movie,))),
-
-            child: Column(children: [
+          child:  Column(children: [
               Stack(fit: StackFit.loose,
                   alignment: Alignment.topCenter,
 
@@ -34,10 +36,7 @@ class _MovieCardWidgetState2 extends State<MovieCardWidget2> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                     child: DecoratedBox(
-                      child: Image.asset(
-                        "assets/images/tenet_poster.jpg",
-                        fit: BoxFit.fill,
-                      ),
+                      child: Image.network("https://image.tmdb.org/t/p/w500${movie.posterPath}",fit: BoxFit.cover,),
                       position: DecorationPosition.foreground,
                       decoration: BoxDecoration(
                           gradient: LinearGradient(

@@ -10,7 +10,7 @@ class FilmPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         body: Container(
           padding: EdgeInsets.only(top: 5),
-          color: Colors.deepPurple,
+          color: Colors.black54,
           child: FutureBuilder<List<Movie>>(
             future: MovieApi.getPopularInfo(),
             builder: (context, snapshot) {
@@ -47,7 +47,7 @@ class FilmPage extends StatelessWidget {
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.65,
+        childAspectRatio: 0.635,
         mainAxisSpacing: 15.0,
       ),
       itemCount: movies.length,
