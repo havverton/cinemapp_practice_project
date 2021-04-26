@@ -177,7 +177,7 @@ class ActorsCardWidget extends StatelessWidget {
                 position: DecorationPosition.foreground,
                 decoration: new BoxDecoration(),
                 child: Image.network(
-                  "https://image.tmdb.org/t/p/w300${actor.profilePath}",
+                  "https://image.tmdb.org/t/p/w185${actor.profilePath}",
                   fit: BoxFit.fitWidth,
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:cinemapp_practice_project/MovieDetailsPage.dart';
+import 'package:cinemapp_practice_project/db/favorites_db.dart' as favDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -77,12 +78,16 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
                   Positioned(
                       top: 1,
                       right: 1,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 8.0, right: 6.0),
-                        child: Icon(
-                            (Icons.favorite),
-                            color: Color(0xBFFFFFFF),
-                            size: 18),
+                      child: GestureDetector(
+                        onTap: () => _toggleFavorite(movie),
+                        child: Container(
+                          margin: EdgeInsets.only(top: 8.0, right: 6.0),
+                          child: Icon((Icons.favorite),
+                              color: movie.isFavorite
+                                  ? Color(0xBFFF4D79)
+                                  : Color(0xBFFFFFFF),
+                              size: 18),
+                        ),
                       )),
                   Positioned(
                     bottom: -1,
@@ -166,6 +171,20 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
   }
 
   Image myImage;
+
+  void _toggleFavorite(Movie movie) {
+    if (movie.isFavorite) {
+      setState(() {
+        movie.isFavorite = false;
+        favDB.deleteMovie(movie);
+      });
+    } else {
+      setState(() {
+        movie.isFavorite = true;
+        favDB.insert(movie);
+      });
+    }
+  }
 
 /*
   @override

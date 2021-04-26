@@ -1,16 +1,17 @@
+import 'package:cinemapp_practice_project/models/MovieJSONModel.dart';
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-Future<Database> openDB() async {
+Future<Database> openFavoritesDB() async {
   final database = openDatabase(
-    join(await getDatabasesPath(), 'movies_popular.db'),
+    join(await getDatabasesPath(), 'movies_favorites.db'),
     onCreate: (db, version) {
-      return db.execute("CREATE TABLE popular("
+      return db.execute("CREATE TABLE favorites("
           "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-          " title TEXT,"
+          "title TEXT,"
           "runtime INTEGER,"
-          " voteCount INTEGER,"
+          "voteCount INTEGER,"
           "adult TEXT,"
           "overview TEXT,"
           "genres TEXT,"
@@ -22,21 +23,27 @@ Future<Database> openDB() async {
   return database;
 }
 
-Future<void> insert(List<Movie> movies, final database) async {
-  final Database db = await database;
-  for (var movie in movies) {
+Future<void> insert(Movie movie) async {
+  final Database db = await openFavoritesDB();
     await db.insert(
-      'popular',
+      'favorites',
       movie.toDB(),
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
-  }
+    db.close();
 }
+Future<void> deleteMovie(Movie movie) async {
+  final Database db = await openFavoritesDB();
+  await db.delete("favorites", where: 'title = ?', whereArgs: ['${movie.title}']);
+  db.close();
+}
+
+
 
 Future<List<Movie>> readDB(final database) async {
   // Get a reference to the database.
   final Database db = await database;
-  final List<Map<String, dynamic>> maps = await db.query('popular');
+  final List<Map<String, dynamic>> maps = await db.query('favorites');
   print("В базе: ${maps.length}");
   return List<Movie>.generate(maps.length, (i) {
     return Movie(
@@ -48,6 +55,12 @@ Future<List<Movie>> readDB(final database) async {
       overview: maps[i]['overview'],
       genres: maps[i]['genres'],
       posterImg: maps[i]['posterImg'],
+      isFavorite: (maps[i]['isFavorite']) == 1 ? true : false
     );
   });
+}
+Future<bool> isFavoriteMovie(final database, MovieJSON movie) async{
+  final Database db = await database;
+  List<Map> list = await db.query('favorites', columns: ['title'], where: '"title" = ?', whereArgs: ['${movie.title}']);
+  return list.length >0;
 }
