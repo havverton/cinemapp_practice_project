@@ -1,147 +1,192 @@
-import 'package:cinemapp_practice_project/MovieAPI.dart';
+import 'package:cinemapp_practice_project/MovieDetailsPage.dart';
+import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'MovieDetailsPage.dart';
-import 'models/MovieModel.dart';
-
-class _MovieCardWidgetState2 extends State<MovieCardWidget2> {
+class _MovieCardWidgetState extends State<MovieCardWidget> {
   final Movie movie;
 
-  _MovieCardWidgetState2(this.movie);
+  _MovieCardWidgetState(this.movie);
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-        width: 197,
-        height: 296,
-        child: GestureDetector(
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MovieDetailsWidget(movie: movie,))),
-
-          child:Card(
+    return Container(
+      width: 197,
+      height: 296,
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MovieDetailsWidget(
+                      movie: movie,
+                    ))),
+        child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
           margin: EdgeInsets.symmetric(horizontal: 7.0),
           color: Color(0xFF191926),
-          child:  Column(children: [
-              Stack(fit: StackFit.loose,
-                  alignment: Alignment.topCenter,
-
-                  children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                    child: DecoratedBox(
-                      child: Image.network("https://image.tmdb.org/t/p/w500${movie.posterPath}",fit: BoxFit.cover,),
-                      position: DecorationPosition.foreground,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.center,
-                              colors: [Color(0xFF191926),
-                                Color(0xDD191926),
-                                Color(0x44191926)])),
+          child: Column(children: [
+            Stack(
+                fit: StackFit.loose,
+                alignment: Alignment.topCenter,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                      child: Hero(
+                          tag: movie.id,
+                          child: DecoratedBox(
+                            child: Image.memory(movie.posterImg),
+                            position: DecorationPosition.foreground,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.center,
+                                    colors: [
+                                  Color(0xFF191926),
+                                  Color(0xDD191926),
+                                  Color(0x44191926)
+                                ])),
+                          )),
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: -1,
-                  left: 1,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 2),
-                          child: Text(
-                            "${getGenres(movie.genres)}",
-                            style:
-                                TextStyle(fontSize: 10, color: Color(0xFFFF3466)),
+                  Positioned(
+                    top: 1,
+                    left: 1,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Container(
+                        width: 24,
+                        height: 24,
+                        margin: EdgeInsets.only(top: 6.0, left: 6.0),
+                        color: Color(0xE6191926),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "${movie.adult ? '18+' : '13+'}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 12,
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.only(top: 2.0),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                color: Color(0xFFFF3466),
-                                size: 10,
-                              ),
-                              Icon(Icons.star, color: Color(0xFFFF3466), size: 10),
-                              Icon(Icons.star, color: Color(0xFFFF3466), size: 10),
-                              Icon(Icons.star, color: Color(0xFFFF3466), size: 10),
-                              Icon(Icons.star, color: Color(0xFFFF3466), size: 10),
-                              Text("${movie.voteCount} reviews",
-                                  style: TextStyle(
-                                      fontSize: 10, color: Color(0xFF6D6D80)))
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ]),
-              Container(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "${(movie.title.length < 25) ? movie.title : (movie.title.substring(0, 20) + "...")}",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(6, 0, 6, 8),
-                    child: Text(
-                      "${movie.runtime} mins",
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.bold,
+                  Positioned(
+                      top: 1,
+                      right: 1,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 8.0, right: 6.0),
+                        child: Icon(
+                            (Icons.favorite),
+                            color: Color(0xBFFFFFFF),
+                            size: 18),
+                      )),
+                  Positioned(
+                    bottom: -1,
+                    left: 1,
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 6.0, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 2),
+                            child: Text(
+                              "${movie.genres}",
+                              style: TextStyle(
+                                  fontSize: 10, color: Color(0xFFFF3466)),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 2.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: Color(0xFFFF3466),
+                                  size: 10,
+                                ),
+                                Icon(Icons.star,
+                                    color: Color(0xFFFF3466), size: 10),
+                                Icon(Icons.star,
+                                    color: Color(0xFFFF3466), size: 10),
+                                Icon(Icons.star,
+                                    color: Color(0xFFFF3466), size: 10),
+                                Icon(Icons.star,
+                                    color: Color(0xFFFF3466), size: 10),
+                                Text("${movie.voteCount} reviews",
+                                    style: TextStyle(
+                                        fontSize: 10, color: Color(0xFF6D6D80)))
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   )
-                ],
-              )),
-            ]),
-          ),
+                ]),
+            Container(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 6.0),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "${(movie.title.length < 25) ? movie.title : (movie.title.substring(0, 20) + "...")}",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(6, 0, 6, 8),
+                  child: Text(
+                    "${movie.runtime} mins",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Color(0xFF565665),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              ],
+            )),
+          ]),
         ),
-      );
-
+      ),
+    );
   }
 
-  String getGenres(List<Genre> list) {
-    final List<String> genres = [];
-    for (var genre in list) {
-      genres.add(genre.name);
-    }
-    if (genres.length > 3) {
-      genres.removeRange(3, genres.length);
-    }
-    return genres.join(", ");
+  Image myImage;
+
+/*
+  @override
+  void initState() {
+    super.initState();
+    myImage = Image.asset("assets/images/tenet_poster.jpg");
   }
-}
-
-class MovieCardWidget2 extends StatefulWidget {
-  final Movie _movie;
-
-  MovieCardWidget2(this._movie);
 
   @override
-  State<StatefulWidget> createState() => _MovieCardWidgetState2(_movie);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(myImage.image, context);
+  }
+*/
+}
+
+class MovieCardWidget extends StatefulWidget {
+  final Movie _movie;
+
+  MovieCardWidget(this._movie);
+
+  @override
+  State<StatefulWidget> createState() => _MovieCardWidgetState(_movie);
 }

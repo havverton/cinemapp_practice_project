@@ -1,22 +1,22 @@
 import 'dart:convert';
 
-import 'package:cinemapp_practice_project/models/MovieModel.dart';
+import 'package:cinemapp_practice_project/models/MovieJSONModel.dart';
+import 'package:cinemapp_practice_project/models/MovieResponseModel.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 
-import 'models/CreditsModel.dart';
-import 'models/MovieModel.dart';
-import 'models/MovieResponseModel.dart';
+import '../models/CreditsModel.dart';
+
 
 class MovieApi {
   static const apikey = "6e466b67854a32b973cf8e3f9dc31068";
 
-  static Future<List<Movie>> getResponse() async {
+  static Future<List<MovieJSON>> getResponse() async {
     // final url =
     //     "https://api.themoviedb.org/3/movie/popular?api_key=6e466b67854a32b973cf8e3f9dc31068&language=en-US&page=1";
     final _authority = "api.themoviedb.org";
-    final _path = "/3/movie/popular";
+    final _path = "/3/movie/top_rated";
     final _params = {
       "api_key": "6e466b67854a32b973cf8e3f9dc31068",
       "language": "en-US",
@@ -35,14 +35,14 @@ class MovieApi {
     return rootBundle.loadString('assets/test.json');
   }
 
-  static Future<List<Movie>> getLocal() async {
+  static Future<List<MovieJSON>> getLocal() async {
     final body = await json.decode(await MovieApi.getJson());
 //print("Body: $body");
     var answer = MovieResponse.fromJson(body);
     return answer.results;
   }
 
-  static Future<List<int>> getPopularIDs() async {
+  static Future<List<int>> _getPopularIDs() async {
    final _authority = "api.themoviedb.org";
     final _path = "/3/movie/popular";
     final _params = {
@@ -65,9 +65,9 @@ class MovieApi {
     return idList;
   }
 
-  static Future<List<Movie>> getPopularInfo() async {
-    List<int> idList = await MovieApi.getPopularIDs();
-    List<Movie> movieList = [];
+  static Future<List<MovieJSON>> getPopularInfo() async {
+    List<int> idList = await MovieApi._getPopularIDs();
+    List<MovieJSON> movieList = [];
     for (var id in idList) {
       final _authority = "api.themoviedb.org";
       final _path = "3/movie/$id";
@@ -79,7 +79,7 @@ class MovieApi {
       final response = await http.get(_uri);
       final body = json.decode(response.body);
 
-      var answer = Movie.fromJson(body);
+      var answer = MovieJSON.fromJson(body);
       movieList.add(answer);
     }
     return movieList;

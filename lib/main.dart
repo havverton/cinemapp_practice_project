@@ -1,4 +1,4 @@
-import 'package:cinemapp_practice_project/FilmPage.dart';
+import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/pages/FilmPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class Cinemapp extends StatelessWidget {
       theme: ThemeData(textTheme: Typography.whiteRedmond),
       home: Container(
           margin: EdgeInsets.symmetric(horizontal: 7.0),
-          color: Color(0xFF191947),
+          color: Color(0xFF191926),
           child: Column(
             children: [
               Container(
