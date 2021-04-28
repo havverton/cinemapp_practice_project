@@ -32,7 +32,7 @@ class Movie{
     "runtime": runtime == null ? null : runtime,
     "title": title == null ? null : title,
     "voteCount": voteCount == null ? null : voteCount,
-    "adult": adult == null ? null : adult,
+    "adult": adult == true ? 1 : 0,
     "genres": genres == null ? null : genres,
     "overview": overview == null ? null : overview,
     //"voteAverage": voteAverage == null ? null : voteAverage,

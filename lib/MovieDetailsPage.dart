@@ -13,147 +13,158 @@ class MovieDetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      color: Color(0xFF191926),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            alignment: AlignmentDirectional(-1, 1),
-            children: [
-              Center(
-                child: AspectRatio(
-                  aspectRatio: 1.5,
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Hero(
-                      tag: movie.id,
-                      child: DecoratedBox(
-                        child: Image.memory(movie.posterImg),
-                        position: DecorationPosition.foreground,
-                        decoration: new BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Color(0xFF191926),
-                                Color(0xDD191926),
-                                Color(0xAA191926)
-                              ]),
+        body: Scrollbar(
+
+      child: Container(
+        color: Color(0xFF191926),
+        child: Column(
+          mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Stack(
+
+              children: [
+                Center(
+                  child: AspectRatio(
+                    aspectRatio: 2,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Hero(
+                        tag: movie.id,
+                        child: DecoratedBox(
+                          child: Image.memory(movie.posterImg),
+                          position: DecorationPosition.foreground,
+                          decoration: new BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  Color(0xFF191926),
+                                  Color(0xDD191926),
+                                  Color(0xAA191926)
+                                ]),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
+                Positioned(
 
-                top: 1,
-                left: 1,
-                child: GestureDetector(
-                  onTap:() => Navigator.pop(context),
-                  child: Container(
-                    margin: EdgeInsets.only(top: 59.0,left: 10.0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.chevron_left,color: Color(0xFF565665),),
-                        Text("Back",style: TextStyle(color: Color(0xFF565665)),)
-                      ],
+                  top: 1,
+                  left: 1,
+                  child: GestureDetector(
+                    onTap:() => Navigator.pop(context),
+                    child: Container(
+                      margin: EdgeInsets.only(top: 59.0,left: 10.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.chevron_left,color: Color(0xFF565665),),
+                          Text("Back",style: TextStyle(color: Color(0xFF565665)),)
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              "${movie.title}",
-              textDirection: TextDirection.ltr,
-              style: TextStyle(
-                fontSize: 40,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+                )
+              ],
             ),
-          ),
-          Flexible(
-            child: Container(
-              margin: EdgeInsets.fromLTRB(16, 15, 16, 10),
+
+            Container(
+              margin: EdgeInsets.only(left: 10.0,right:10.0,),
+
               alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              child: Flex(
+                mainAxisSize: MainAxisSize.min,
+                direction: Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 4.0),
+                  Flexible(
                     child: Text(
-                      "${movie.genres}",
+                      "${movie.title}",
+                      textDirection: TextDirection.ltr,
                       style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFFFF3466),
+                        fontSize: 40,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 4.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.star,
+                  Flexible(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 4.0),
+                      child: Text(
+                        "${movie.genres}",
+                        style: TextStyle(
+                          fontSize: 14,
                           color: Color(0xFFFF3466),
-                          size: 14,
                         ),
-                        Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
-                        Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
-                        Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
-                        Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
-                        Text("${movie.voteCount} reviews",
-                            style: TextStyle(
-                                fontSize: 14, color: Color(0xFF6D6D80)))
-                      ],
+                      ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("STORYLINE",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold)),
-                        Text("${movie.overview}",
-                            style: TextStyle(fontSize: 14))
-                      ],
+                 Flexible(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 4.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Color(0xFFFF3466),
+                            size: 14,
+                          ),
+                          Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
+                          Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
+                          Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
+                          Icon(Icons.star, color: Color(0xFFFF3466), size: 14),
+                          Text("${movie.voteCount} reviews",
+                              style: TextStyle(
+                                  fontSize: 14, color: Color(0xFF6D6D80)))
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    //margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Text("Cast",
+                  Flexible(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("STORYLINE",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
-                        ),
-                        SafeArea(
-                            bottom: false,
-                            top: false,
-                            child: SizedBox(
-                                width: double.infinity,
-                                height: 150,
-                                child: MovieCastWidget(movie.id))),
-                      ],
+                          Text("${movie.overview}",
+                              style: TextStyle(fontSize: 14))
+                        ],
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 10.0),
+                            child: Text("Cast",
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                          ),
+                    SizedBox(
+                        width: double.infinity,
+                        height: 150,
+                        child: MovieCastWidget(movie.id)
+                    ),
+
+                        ],
+                      ),
                     ),
                   )
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     ));
   }
@@ -235,7 +246,7 @@ class MovieCastWidget extends StatelessWidget {
         itemCount: 10,
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 250,
-            childAspectRatio: 1.8,
+            childAspectRatio: 1.75,
             crossAxisSpacing: 5,
             mainAxisSpacing: 8),
         itemBuilder: (context, index) {

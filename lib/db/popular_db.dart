@@ -11,7 +11,7 @@ Future<Database> openDB() async {
           " title TEXT,"
           "runtime INTEGER,"
           " voteCount INTEGER,"
-          "adult TEXT,"
+          "adult INTEGER,"
           "overview TEXT,"
           "genres TEXT,"
           "posterImg TEXT,"
@@ -39,6 +39,7 @@ Future<List<Movie>> readDB(final database) async {
   final List<Map<String, dynamic>> maps = await db.query('popular');
   print("В базе: ${maps.length}");
   return List<Movie>.generate(maps.length, (i) {
+    print("${maps[i]}");
     return Movie(
       id: maps[i]['id'],
       title: maps[i]['title'],
@@ -48,6 +49,7 @@ Future<List<Movie>> readDB(final database) async {
       overview: maps[i]['overview'],
       genres: maps[i]['genres'],
       posterImg: maps[i]['posterImg'],
+      isFavorite: maps[i]['isFavorite']
     );
   });
 }

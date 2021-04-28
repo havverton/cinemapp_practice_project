@@ -7,12 +7,9 @@ import 'MovieJSONModel.dart';
 import 'MovieModel.dart';
 
 class MovieProvider {
-  Future<List<Movie>> getPopular()async {
-    var jsonMovies = await  MovieApi.getPopularInfo();
-    var moviesList = List<Movie>.empty(growable: true);
-    for (var movie in jsonMovies){
-        moviesList.add(
-          Movie(
+  Future<Movie> getPopular(int id)async {
+    var movie = await  MovieApi.getPopularInfo(id);
+    return     Movie(
             adult: movie.adult,
             id: movie.id,
             overview: movie.overview,
@@ -23,10 +20,7 @@ class MovieProvider {
             genres: getGenres(movie.genres),
             posterImg: await getPoster(movie.posterPath),
             isFavorite: (await isFavorite(movie))
-          )
-        );
-    }
-  return moviesList;
+          );
   }
   String getGenres(List<Genre> genres) {
     var genresList = List<String>.empty(growable: true);

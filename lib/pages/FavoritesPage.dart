@@ -21,18 +21,13 @@ class _FavoritesPageState extends State<FavoritesPage>{
   var test = favDB.readDB(database);
   return  test;
 }
-
-  /*void storeMovie(List<Movie> movies) {
-    popularDB.insert(movies, database);
-  }*/
   @override
   Widget build(BuildContext context) =>
       Scaffold(
         body: Container(
-          padding: EdgeInsets.only(top: 5),
           color: Color(0xFF191926),
           child: FutureBuilder<List<Movie>>(
-            future: testtest(),
+            future:  favDB.readDB(database),
             //future: MovieProvider().getPopular(),
             builder: (context, snapshot) {
               final movies = snapshot.data;

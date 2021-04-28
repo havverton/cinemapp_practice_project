@@ -1,6 +1,7 @@
 import 'package:cinemapp_practice_project/MovieDetailsPage.dart';
 import 'package:cinemapp_practice_project/db/favorites_db.dart' as favDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
+import 'package:cinemapp_practice_project/pages/FavoritesPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

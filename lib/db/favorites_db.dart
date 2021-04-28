@@ -12,13 +12,13 @@ Future<Database> openFavoritesDB() async {
           "title TEXT,"
           "runtime INTEGER,"
           "voteCount INTEGER,"
-          "adult TEXT,"
+          "adult INTEGER,"
           "overview TEXT,"
           "genres TEXT,"
           "posterImg TEXT,"
           "isFavorite INTEGER)");
     },
-    version: 1,
+    version: 2,
   );
   return database;
 }
@@ -51,7 +51,7 @@ Future<List<Movie>> readDB(final database) async {
       title: maps[i]['title'],
       runtime: maps[i]['runtime'],
       voteCount: maps[i]['voteCount'],
-      adult: maps[i]['adult'],
+      adult: (maps[i]['adult']) == 1 ? true : false,
       overview: maps[i]['overview'],
       genres: maps[i]['genres'],
       posterImg: maps[i]['posterImg'],
