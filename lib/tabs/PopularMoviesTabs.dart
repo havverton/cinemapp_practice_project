@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cinemapp_practice_project/MovieCardWidget.dart';
 import 'package:cinemapp_practice_project/db/movie_local_db.dart' as popularDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
-import 'package:cinemapp_practice_project/models/MovieProvider.dart';
+import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/shit/MovieProvider.dart';
 import 'package:cinemapp_practice_project/network/MovieAPI.dart';
 import 'package:flutter/material.dart';
 
@@ -79,8 +79,7 @@ class _PopularMovieTabState extends State<PopularMovieTab> with AutomaticKeepAli
   void _fetchMoviesToList(int typeID, List<int> list) async {
     List<Movie> temp = [];
     await Future.wait(list.map((id) async {
-      var movie;
-      movie = await MovieProvider().getPopular(id);
+      var movie = await MovieApi.getMoviesInfo(id);
       temp.add(movie);
       //await popularDB.insert(movie, database);
     }));

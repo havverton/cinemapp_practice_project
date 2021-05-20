@@ -2,6 +2,7 @@ import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/pages/MovieDet
 import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/utilities/constants.dart';
 import 'package:cinemapp_practice_project/db/movie_local_db.dart' as favDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
+import 'package:cinemapp_practice_project/network/MovieAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -40,7 +41,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
                       child: Hero(
                           tag: movie.id,
                           child: DecoratedBox(
-                            child: Image.memory(movie.posterImg),
+                            child: Image.network(MovieApi.getPoster(movie.posterPath).toString()),
                             position: DecorationPosition.foreground,
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(
@@ -79,13 +80,13 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
                       top: 1,
                       right: 1,
                       child: GestureDetector(
-                        onTap: () => _toggleFavorite(movie),
+                        //onTap: () => _toggleFavorite(movie),
                         child: Container(
                           margin: EdgeInsets.only(top: 8.0, right: 6.0),
                           child: Icon((Icons.favorite),
-                              color: movie.isFavorite
+                              color: /*movie.isFavorite
                                   ? Color(0xBFFF4D79)
-                                  : Color(0xBFFFFFFF),
+                                  :*/ Color(0xBFFFFFFF),
                               size: 18),
                         ),
                       )),
@@ -172,7 +173,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
 
   Image myImage;
 
-  void _toggleFavorite(Movie movie) {
+/*  void _toggleFavorite(Movie movie) {
     if (movie.isFavorite) {
       setState(() {
         movie.isFavorite = false;
@@ -184,7 +185,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
         favDB.addFavorites(movie);
       });
     }
-  }
+  }*/
 
 /*
   @override

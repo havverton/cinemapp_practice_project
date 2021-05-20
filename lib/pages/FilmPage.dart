@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cinemapp_practice_project/db/movie_local_db.dart' as popularDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
-import 'package:cinemapp_practice_project/models/MovieProvider.dart';
+import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/shit/MovieProvider.dart';
 import 'package:cinemapp_practice_project/network/MovieAPI.dart';
 import 'package:cinemapp_practice_project/tabs/PopularMoviesTabs.dart';
 import 'package:cinemapp_practice_project/tabs/TopRatedMoviesTabs.dart';
@@ -132,6 +132,7 @@ class _FilmPageState extends State<FilmPage>{
 
   }*/
 
+/*
   void _fetchTopRatedMovies() {
     popularDB.openDB();
     MovieApi.getTopRatedIDs(currentPage).then((list) => setState(() {
@@ -144,6 +145,7 @@ class _FilmPageState extends State<FilmPage>{
           });
         }));
   }
+*/
 
 
 /*  void checkConnection() async {

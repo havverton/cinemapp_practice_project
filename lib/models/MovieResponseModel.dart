@@ -1,6 +1,8 @@
 import 'dart:core';
 
-import 'MovieJSONModel.dart';
+import 'package:cinemapp_practice_project/models/MovieModel.dart';
+
+import '../shit/MovieJSONModel.dart';
 
 class MovieResponse {
   MovieResponse({
@@ -11,22 +13,22 @@ class MovieResponse {
   });
 
   int page;
-  List<MovieJSON> results;
+  List<Movie> results;
   int totalPages;
   int totalResults;
 
   factory MovieResponse.fromJson(Map<String, dynamic> json) => MovieResponse(
         page: json["page"],
         results:
-            List<MovieJSON>.from(json["results"].map((x) => MovieJSON.fromJson(x))),
+            List<Movie>.from(json["results"].map((x) => Movie.fromJson(x))),
         totalPages: json["total_pages"],
         totalResults: json["total_results"],
       );
 
-  Map<String, dynamic> toJson() => {
+/*  Map<String, dynamic> toJson() => {
         "page": page,
         "results": List<dynamic>.from(results.map((x) => x.toJson())),
         "total_pages": totalPages,
         "total_results": totalResults,
-      };
+      };*/
 }

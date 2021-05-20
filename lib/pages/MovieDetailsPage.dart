@@ -49,7 +49,7 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget>{
                             child: Hero(
                               tag: movie.id,
                               child: DecoratedBox(
-                                child: Image.memory(movie.posterImg),
+                                child: Image.network(MovieApi.getPoster(movie.posterPath).toString()),
                                 position: DecorationPosition.foreground,
                                 decoration: new BoxDecoration(
                                   gradient: LinearGradient(

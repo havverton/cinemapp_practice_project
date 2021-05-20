@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:ui';
 
-import 'package:cinemapp_practice_project/models/MovieJSONModel.dart';
+import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/shit/MovieJSONModel.dart';
+import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:cinemapp_practice_project/models/MovieResponseModel.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
@@ -12,7 +14,7 @@ import '../models/CreditsModel.dart';
 class MovieApi {
   static const apikey = "6e466b67854a32b973cf8e3f9dc31068";
 
-  static Future<List<MovieJSON>> getResponse() async {
+/*  static Future<List<Movie>> getResponse() async {
     // final url =
     //     "https://api.themoviedb.org/3/movie/popular?api_key=6e466b67854a32b973cf8e3f9dc31068&language=en-US&page=1";
     final _authority = "api.themoviedb.org";
@@ -30,16 +32,8 @@ class MovieApi {
     var answer = MovieResponse.fromJson(body);
     return answer.results;
   }
+  */
 
-  static Future<String> getJson() {
-    return rootBundle.loadString('assets/test.json');
-  }
-
-  static Future<List<MovieJSON>> getLocal() async {
-    final body = await json.decode(await MovieApi.getJson());
-    var answer = MovieResponse.fromJson(body);
-    return answer.results;
-  }
 
   static Future<List<int>> getPopularIDs(int page) async {
    final _authority = "api.themoviedb.org";
@@ -87,8 +81,8 @@ class MovieApi {
   }
 
 
-  static Future<MovieJSON> getMoviesInfo(int id) async {
-    List<MovieJSON> movieList = [];
+  static Future<Movie> getMoviesInfo(int id) async {
+    List<Movie> movieList = [];
       final _authority = "api.themoviedb.org";
       final _path = "3/movie/$id";
       final _params = {
@@ -98,7 +92,7 @@ class MovieApi {
       final _uri = Uri.https(_authority, _path, _params);
       final response = await http.get(_uri);
       final body = json.decode(response.body);
-      var answer = MovieJSON.fromJson(body);
+      var answer = Movie.fromJson(body);
 
     return answer;
   }
@@ -118,5 +112,13 @@ class MovieApi {
 
     return answer.cast;
 
+  }
+
+    static Uri getPoster(String posterPath){
+    //var image = Image.network("https://image.tmdb.org/t/p/w500$posterPath");
+    final _authority = "image.tmdb.org";
+    final _path = "t/p/w500$posterPath";
+    var _uri = Uri.https(_authority, _path);
+    return _uri;
   }
 }

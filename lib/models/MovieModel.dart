@@ -10,10 +10,8 @@ class Movie{
     //this.popularity,
     this.runtime,
     this.title,
-    //this.voteAverage,
+    this.posterPath,
     this.voteCount,
-    this.posterImg,
-    this.isFavorite,
     this.category
   });
 
@@ -24,11 +22,24 @@ class Movie{
   String overview = "";
   int runtime = 0;
   String title = "";
-  //double voteAverage = 0.0;
+  String posterPath;
   int voteCount = 0;
-  Uint8List posterImg;
-  bool isFavorite = false;
-  int category = 0;
+  Category category = Category.nothing;
+
+  factory Movie.fromJson(Map<String, dynamic> json) => Movie(
+      adult: json["adult"] == null ? null : json["adult"],
+      genres: json["genres"] == null
+          ? null
+          : List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x)))
+              .toString(),
+      id: json["id"] == null ? null : json["id"],
+      overview: json["overview"] == null ? null : json["overview"],
+    posterPath : json["poster_path"] == null ? null : json["poster_path"],
+      runtime: json["runtime"] == null ? null : json["runtime"],
+      title: json["title"] == null ? null : json["title"],
+      voteCount: json["vote_count"] == null ? null : json["vote_count"],
+    );
+
 
   Map<String, dynamic> toDB() => {
     "runtime": runtime == null ? null : runtime,
@@ -38,8 +49,29 @@ class Movie{
     "genres": genres == null ? null : genres,
     "overview": overview == null ? null : overview,
     //"voteAverage": voteAverage == null ? null : voteAverage,
-    "posterImg": posterImg == null ? null : posterImg,
-    "isFavorite": isFavorite == true ? 1 : 0,
-    "category": category == null? null : category,
+    "category": category == null? null : category.toString(),
   };
 }
+
+
+class Genre {
+  Genre({
+    this.id,
+    this.name,
+  });
+
+  int id;
+  String name;
+
+  factory Genre.fromJson(Map<String, dynamic> json) => Genre(
+    id: json["id"] == null ? null : json["id"],
+    name: json["name"] == null ? null : json["name"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "name": name == null ? null : name,
+  };
+}
+
+enum Category{popular,top_rated, upcoming, nothing}
