@@ -3,6 +3,8 @@ import 'package:cinemapp_practice_project/pages/FilmPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/utilities/constants.dart';
+
 void main() {
   runApp(Cinemapp());
 }
@@ -26,66 +28,42 @@ class _MainScaffoldState extends State<MainScaffold> {
   final List<Widget> _pages = [
     FilmPage(),
     FavoritesPage(),
+    FilmPage(),
   ];
-
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-        backgroundColor: Color(0xFF191926),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Color(0xFF191926),
-          unselectedItemColor: Colors.white24,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.movie),
-              label: 'Movies',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorites',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_rounded),
-              label: 'Profile',
-            ),
-          ],
-          selectedItemColor: Color(0xFFFF3365),
-          currentIndex: _selectedIndex,
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          type: BottomNavigationBarType.fixed,
-        ),
-        body: _pages[_selectedIndex],
-    );
-
-    /*Container(
-            color: Color(0xFF191926),
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 50,
-                  child: TextButton(
-                    onPressed: () => {},
-                    child: Text("${_selectedIndex == 0 ? '123' : '4321'}"),
-                  ),
-                ),
-                Expanded(
-                  child: _selectedIndex == 0 ? FilmPage() : FavoritesPage(),
-                )
-              ],
-            )
-        ),
+      backgroundColor: kMainBackGrndColor,
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: kMainBackGrndColor,
+        unselectedItemColor: Colors.white24,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.movie),
+            label: 'Movies',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_rounded),
+            label: 'Profile',
+          ),
+        ],
+        selectedItemColor: Color(0xFFFF3365),
+        currentIndex: _selectedIndex,
+        onTap: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        type: BottomNavigationBarType.fixed,
       ),
-    );*/
+      body: _pages[_selectedIndex],
+    );
   }
-
-
 }
 
 class TabNavigator extends StatelessWidget {

@@ -13,7 +13,8 @@ class Movie{
     //this.voteAverage,
     this.voteCount,
     this.posterImg,
-    this.isFavorite
+    this.isFavorite,
+    this.category
   });
 
 
@@ -27,6 +28,7 @@ class Movie{
   int voteCount = 0;
   Uint8List posterImg;
   bool isFavorite = false;
+  int category = 0;
 
   Map<String, dynamic> toDB() => {
     "runtime": runtime == null ? null : runtime,
@@ -38,5 +40,6 @@ class Movie{
     //"voteAverage": voteAverage == null ? null : voteAverage,
     "posterImg": posterImg == null ? null : posterImg,
     "isFavorite": isFavorite == true ? 1 : 0,
+    "category": category == null? null : category,
   };
 }

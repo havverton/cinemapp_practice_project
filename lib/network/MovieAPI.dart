@@ -37,7 +37,6 @@ class MovieApi {
 
   static Future<List<MovieJSON>> getLocal() async {
     final body = await json.decode(await MovieApi.getJson());
-//print("Body: $body");
     var answer = MovieResponse.fromJson(body);
     return answer.results;
   }
@@ -64,8 +63,31 @@ class MovieApi {
     print("Id загружены: ${idList.length}");
     return idList;
   }
+  static Future<List<int>> getTopRatedIDs(int page) async {
+    final _authority = "api.themoviedb.org";
+    final _path = "/3/movie/top_rated";
+    final _params = {
+      "api_key": "6e466b67854a32b973cf8e3f9dc31068",
+      "language": "en-US",
+      "page": "$page"
+    };
+    final _uri = Uri.https(_authority, _path, _params);
+    List<int> idList = [];
 
-  static Future<MovieJSON> getPopularInfo(int id) async {
+    final response = await http.get(_uri);
+    final body = json.decode(response.body);
+    //print("Body: $body");
+    var answer = MovieResponse.fromJson(body);
+    var results = answer.results;
+    results.forEach((element) {
+      idList.add(element.id);
+    });
+    print("Id загружены: ${idList.length}");
+    return idList;
+  }
+
+
+  static Future<MovieJSON> getMoviesInfo(int id) async {
     List<MovieJSON> movieList = [];
       final _authority = "api.themoviedb.org";
       final _path = "3/movie/$id";

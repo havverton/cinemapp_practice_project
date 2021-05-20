@@ -1,8 +1,7 @@
-import 'package:cinemapp_practice_project/MovieDetailsPage.dart';
-import 'package:cinemapp_practice_project/db/favorites_db.dart' as favDB;
+import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/pages/MovieDetailsPage.dart';
+import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/utilities/constants.dart';
+import 'package:cinemapp_practice_project/db/movie_local_db.dart' as favDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
-import 'package:cinemapp_practice_project/pages/FavoritesPage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -28,7 +27,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
             borderRadius: BorderRadius.circular(10.0),
           ),
           margin: EdgeInsets.symmetric(horizontal: 7.0),
-          color: Color(0xFF191926),
+          color: kMainBackGrndColor,
           child: Column(children: [
             Stack(
                 fit: StackFit.loose,
@@ -104,7 +103,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
                             child: Text(
                               "${movie.genres}",
                               style: TextStyle(
-                                  fontSize: 10, color: Color(0xFFFF3466)),
+                                  fontSize: 10, color: kSecondaryColor),
                             ),
                           ),
                           Container(
@@ -113,17 +112,17 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
                               children: [
                                 Icon(
                                   Icons.star,
-                                  color: Color(0xFFFF3466),
+                                  color: kSecondaryColor,
                                   size: 10,
                                 ),
                                 Icon(Icons.star,
-                                    color: Color(0xFFFF3466), size: 10),
+                                    color: kSecondaryColor, size: 10),
                                 Icon(Icons.star,
-                                    color: Color(0xFFFF3466), size: 10),
+                                    color: kSecondaryColor, size: 10),
                                 Icon(Icons.star,
-                                    color: Color(0xFFFF3466), size: 10),
+                                    color: kSecondaryColor, size: 10),
                                 Icon(Icons.star,
-                                    color: Color(0xFFFF3466), size: 10),
+                                    color: kSecondaryColor, size: 10),
                                 Text("${movie.voteCount} reviews",
                                     style: TextStyle(
                                         fontSize: 10, color: Color(0xFF6D6D80)))
@@ -135,7 +134,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
                     ),
                   )
                 ]),
-            Container(
+            Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -177,12 +176,12 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
     if (movie.isFavorite) {
       setState(() {
         movie.isFavorite = false;
-        favDB.deleteMovie(movie);
+        favDB.removeFromFavorites(movie);
       });
     } else {
       setState(() {
         movie.isFavorite = true;
-        favDB.insert(movie);
+        favDB.addFavorites(movie);
       });
     }
   }

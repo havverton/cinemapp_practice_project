@@ -1,34 +1,30 @@
-
 import 'package:cinemapp_practice_project/MovieCardWidget.dart';
+import 'package:cinemapp_practice_project/db/movie_local_db.dart' as favDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
-import 'package:cinemapp_practice_project/models/MovieProvider.dart';
+import 'package:cinemapp_practice_project/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cinemapp_practice_project/db/favorites_db.dart' as favDB;
-import 'package:sqflite/sqflite.dart';
-
-
 
 
 class FavoritesPage extends StatefulWidget {
   @override
   _FavoritesPageState createState() => _FavoritesPageState();
 }
-class _FavoritesPageState extends State<FavoritesPage>{
 
-  final database = favDB.openFavoritesDB();
-  Future<List<Movie>> testtest() async{
-  var test = favDB.readDB(database);
-  return  test;
-}
+class _FavoritesPageState extends State<FavoritesPage> {
+  final database = favDB.readFavorites();
+
+  Future<List<Movie>> testtest() async {
+    var test = favDB.readDB(database);
+    return test;
+  }
+
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         body: Container(
-          color: Color(0xFF191926),
+          color: kMainBackGrndColor,
           child: FutureBuilder<List<Movie>>(
-            future:  favDB.readDB(database),
-            //future: MovieProvider().getPopular(),
+            future: favDB.readFavorites(),
             builder: (context, snapshot) {
               final movies = snapshot.data;
               switch (snapshot.connectionState) {
@@ -38,7 +34,6 @@ class _FavoritesPageState extends State<FavoritesPage>{
                   print("no data");
                   break;
                 case ConnectionState.active:
-
                   print("no data1");
                   break;
 
@@ -60,20 +55,17 @@ class _FavoritesPageState extends State<FavoritesPage>{
         ),
       );
 
-  Widget buildMovies(List<Movie> movies) =>
-      GridView.builder(
-          itemBuilder: (context, index) {
-            final movie = movies[index];
-            //storeMovie(movie);
-            return MovieCardWidget(movie);
-          },
-
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.635,
-            mainAxisSpacing: 15.0,
-          ),
-          itemCount: movies.length,
-          physics: BouncingScrollPhysics());
-
+  Widget buildMovies(List<Movie> movies) => GridView.builder(
+      itemBuilder: (context, index) {
+        final movie = movies[index];
+        //storeMovie(movie);
+        return MovieCardWidget(movie);
+      },
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.635,
+        mainAxisSpacing: 15.0,
+      ),
+      itemCount: movies.length,
+      physics: BouncingScrollPhysics());
 }
