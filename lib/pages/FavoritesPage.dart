@@ -1,9 +1,12 @@
+import 'package:cinemapp_practice_project/BLoC/movie_card_bloc.dart';
 import 'package:cinemapp_practice_project/MovieCardWidget.dart';
 import 'package:cinemapp_practice_project/db/movie_local_db.dart' as favDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
+import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:cinemapp_practice_project/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class FavoritesPage extends StatefulWidget {
@@ -13,11 +16,8 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> {
   final database = favDB.readFavorites();
+  MovieRepository movieRepository = MovieRepository();
 
-  Future<List<Movie>> testtest() async {
-    var test = favDB.readDB(database);
-    return test;
-  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -43,9 +43,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
                     return Text("No data");
                   } else {
-                    print("${movies.length}");
-                    //storeMovie(movies);
-                    //read(database);
+                    print("${movies.length} ");
+
                     return buildMovies(movies);
                   }
               }
@@ -59,8 +58,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
       itemBuilder: (context, index) {
         final movie = movies[index];
         //storeMovie(movie);
-        return MovieCardWidget(movie);
+        return  BlocProvider<MovieCardFavoriteBLoC>(
+            create: (context) => MovieCardFavoriteBLoC(movieRepository),
+            child: MovieCardWidget(movie));
       },
+
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.635,

@@ -1,6 +1,7 @@
 import 'package:cinemapp_practice_project/models/CreditsModel.dart';
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
-import 'package:cinemapp_practice_project/network/MovieAPI.dart';
+import 'package:cinemapp_practice_project/services/MovieProvider.dart';
+import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -36,32 +37,25 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget>{
             body: Container(
               color: kMainBackGrndColor,
               child: Column(
-                mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                mainAxisAlignment:  MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Stack(
                     children: [
                       Center(
-                        child: AspectRatio(
-                          aspectRatio: 1.78,
-                          child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Hero(
-                              tag: movie.id,
-                              child: DecoratedBox(
-                                child: Image.network(MovieApi.getPoster(movie.posterPath).toString()),
-                                position: DecorationPosition.foreground,
-                                decoration: new BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                      colors: [
-                                        Color(0xFF191926),
-                                        Color(0xDD191926),
-                                        Color(0xAA191926)
-                                      ]),
-                                ),
-                              ),
+                        child: Container(
+                          child: DecoratedBox(
+                            child: Image.network(MovieRepository().getBackDropURL(movie.backdropPath)),
+                            position: DecorationPosition.foreground,
+                            decoration: new BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    Color(0xFF191926),
+                                    Color(0xDD191926),
+                                    Color(0xAA191926)
+                                  ]),
                             ),
                           ),
                         ),
@@ -170,7 +164,7 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget>{
                                 SizedBox(
                                     width: double.infinity,
                                     height: 150,
-                                    child: MovieCastWidget(movie.id)
+                                    child: MovieCastWidget(movie.movie_id)
                                 ),
 
                               ],
@@ -244,7 +238,7 @@ class MovieCastWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        future: MovieApi.getMovieActors(this.movieID),
+        future: MovieRepository().getActors(movieID),
         builder: (context, snapshot) {
           final actors = snapshot.data;
           switch (snapshot.connectionState) {

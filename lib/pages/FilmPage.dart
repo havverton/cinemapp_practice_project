@@ -1,23 +1,20 @@
-import 'dart:io';
-
+import 'package:cinemapp_practice_project/BLoC/movies_bloc.dart';
 import 'package:cinemapp_practice_project/db/movie_local_db.dart' as popularDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
-import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/shit/MovieProvider.dart';
-import 'package:cinemapp_practice_project/network/MovieAPI.dart';
+import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:cinemapp_practice_project/tabs/PopularMoviesTabs.dart';
 import 'package:cinemapp_practice_project/tabs/TopRatedMoviesTabs.dart';
 import 'package:cinemapp_practice_project/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/MovieCardWidget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FilmPage extends StatefulWidget {
   @override
   _FilmPageState createState() => _FilmPageState();
 }
 
-class _FilmPageState extends State<FilmPage>{
+class _FilmPageState extends State<FilmPage> {
   final database = popularDB.openDB();
   int currentPage = 1;
   List<int> popularIDs = [];
@@ -28,7 +25,7 @@ class _FilmPageState extends State<FilmPage>{
   String currentTab = "Popular";
   var isConnected = false;
 
- /* Widget FutureMovieBuilder(BuildContext context, int index, int typeID) {
+  /* Widget FutureMovieBuilder(BuildContext context, int index, int typeID) {
     var currentList = [];
     switch (typeID){
        case 1:
@@ -39,7 +36,7 @@ class _FilmPageState extends State<FilmPage>{
          break;
      }
 
-    
+
     Future<Movie> getMovie(int index)async{
       switch(typeID){
         case 1: return moviePopularList[index]; break;
@@ -66,7 +63,7 @@ class _FilmPageState extends State<FilmPage>{
       },
     );
   }*/
-
+  MovieRepository movieRepository = MovieRepository();
 
   @override
   Widget build(BuildContext context) => Column(
@@ -105,8 +102,14 @@ class _FilmPageState extends State<FilmPage>{
                     color: kMainBackGrndColor,
                     child: TabBarView(
                       children: [
-                        PopularMovieTab(),
-                        TopRatedMovieTab(),
+                        BlocProvider<MoviePopularBLoC>(
+                          create: (context) => MoviePopularBLoC(movieRepository),
+                          child: PopularMovieTab(),
+                        ),
+                        BlocProvider<MovieTopRatedBLoC>(
+                          create: (context) => MovieTopRatedBLoC(movieRepository),
+                          child: TopRatedMovieTab(),
+                        ),
                         PopularMovieTab(),
                       ],
                     ),
@@ -116,8 +119,7 @@ class _FilmPageState extends State<FilmPage>{
         ],
       );
 
-
-  void clearDB(){
+  void clearDB() {
     popularDB.recreateTable();
   }
 /*
@@ -147,7 +149,6 @@ class _FilmPageState extends State<FilmPage>{
   }
 */
 
-
 /*  void checkConnection() async {
     try {
       final response = await InternetAddress.lookup("google.com");
@@ -162,8 +163,7 @@ class _FilmPageState extends State<FilmPage>{
     }
   }*/
 
-
-  /*void _fetchMoviesToList(int typeID, List<int> list){
+/*void _fetchMoviesToList(int typeID, List<int> list){
     List<Movie> temp = [];
     list.forEach((element) async {
       var movie;

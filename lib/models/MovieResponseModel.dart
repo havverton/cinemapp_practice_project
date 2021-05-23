@@ -2,7 +2,6 @@ import 'dart:core';
 
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 
-import '../shit/MovieJSONModel.dart';
 
 class MovieResponse {
   MovieResponse({

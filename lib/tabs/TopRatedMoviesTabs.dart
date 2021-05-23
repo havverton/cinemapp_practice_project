@@ -1,24 +1,31 @@
 import 'dart:io';
 
+import 'package:cinemapp_practice_project/BLoC/movie_card_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/movies_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/movies_events_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/movies_states_bloc.dart';
 import 'package:cinemapp_practice_project/MovieCardWidget.dart';
 import 'package:cinemapp_practice_project/db/movie_local_db.dart' as popularDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
-import 'file:///D:/Flutter_Projects/cinemapp_practice_project/lib/shit/MovieProvider.dart';
-import 'package:cinemapp_practice_project/network/MovieAPI.dart';
+import 'package:cinemapp_practice_project/services/MovieProvider.dart';
+import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TopRatedMovieTab extends StatefulWidget {
   @override
   _TopRatedMovieTabState createState() => _TopRatedMovieTabState();
 }
 
-class _TopRatedMovieTabState extends State<TopRatedMovieTab> with AutomaticKeepAliveClientMixin{
-  final database = popularDB.openDB();
+class _TopRatedMovieTabState extends State<TopRatedMovieTab> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   int currentPage = 1;
-  List<int> topRatedIDs = [];
-  List<Movie> movieTopRatedList = [];
+
+  List<Movie> movieList = [];
   bool preload = false;
   var isConnected = false;
+  MovieRepository movieRepository = MovieRepository();
 
   @override
   void initState() {
@@ -36,59 +43,57 @@ class _TopRatedMovieTabState extends State<TopRatedMovieTab> with AutomaticKeepA
   }
 
   Widget build(BuildContext context) {
-    var circular = Center(
-      child: CircularProgressIndicator(),
-    );
 
-    if (topRatedIDs.isEmpty && !preload) {
-      fetchMovies();
+    final MovieTopRatedBLoC movieBloc1 = BlocProvider.of<MovieTopRatedBLoC>(context);
+    if (!preload){
+      movieBloc1.add(MovieLoadTopRatedEvent());
       preload = true;
     }
+    return BlocBuilder<MovieTopRatedBLoC, MoviesState>(
+        builder: (context,state){
+          if(state is MoviesEmptyListState){
+            return Center(child: CircularProgressIndicator());
+          }else if(state is MoviesLoadedListState){
+            movieList.addAll(state.loadedMovies);
+          }
+          return GridView.builder(
+              controller: _scrollController(movieBloc1),
+              itemBuilder: (context, index) {
+                var movie =  movieList[index];
+                return  BlocProvider<MovieCardFavoriteBLoC>(
+                    create: (context) => MovieCardFavoriteBLoC(movieRepository),
+                    child: MovieCardWidget(movie));
+              },
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.635,
+                mainAxisSpacing: 15.0,
+              ),
+              itemCount: movieList.length,
+              physics: BouncingScrollPhysics());
+        });
 
-    var builder = GridView.builder(
-        controller: _scrollController(2),
-        itemBuilder: (context, index) {
-          return FutureMovieBuilder(context, index, 2);
-        },
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.635,
-          mainAxisSpacing: 15.0,
-        ),
-        itemCount: topRatedIDs.length,
-        physics: BouncingScrollPhysics());
-    return builder;
+
+
   }
-
-  ScrollController _scrollController(int typeID) {
+  ScrollController _scrollController(MovieTopRatedBLoC movieBloc1) {
     ScrollController _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         print("LOADING");
-        fetchMovies();
+        int page = movieList.length == 0 ? 1 : (movieList.length~/20)+1 ;
+          movieBloc1.add(MovieLoadTopRatedEvent(page: page));
       }
     });
     return _scrollController;
   }
 
-  void _fetchMoviesToList(int typeID, List<int> list) async {
-    List<Movie> temp = [];
-    await Future.wait(list.map((id) async {
-      var movie;
-      movie = MovieApi.getMoviesInfo(id);
-      temp.add(movie);
-      //await popularDB.insert(movie, database);
-    }));
-    print("Попавсиbb");
-    setState(() {
-      this.movieTopRatedList.addAll(temp);
-    });
-  }
 
-  Widget FutureMovieBuilder(BuildContext context, int index, int typeID) {
+
+/*Widget FutureMovieBuilder(BuildContext context, int index, int typeID) {
        Future<Movie> getMovie(int index) async {
-      return movieTopRatedList[index];
+      return moviePopularList[index];
     }
 
     return FutureBuilder<Movie>(
@@ -109,27 +114,5 @@ class _TopRatedMovieTabState extends State<TopRatedMovieTab> with AutomaticKeepA
         return Center(child: CircularProgressIndicator());
       },
     );
-  }
-
-  Future<List<int>> _fetchPopular() async {
-    //popularDB.openDB();
-    var list = await MovieApi.getPopularIDs(
-        topRatedIDs.isEmpty ? 1 : (topRatedIDs.length ~/ 20) + 1);
-
-    print("ID загружены поп");
-    //_fetchMoviesToList(1,list);
-    setState(() {
-      print("${list.length} ${topRatedIDs.length}");
-      topRatedIDs.addAll(list);
-    });
-    return list;
-  }
-
-  void fetchMovies() async {
-    var list = await _fetchPopular();
-    _fetchMoviesToList(2, list);
-  }
-
-  @override
-  bool get wantKeepAlive => true;
+  }*/
 }
