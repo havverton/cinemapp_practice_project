@@ -44,13 +44,12 @@ class MoviePopularBLoC extends Bloc<MovieEvent, MoviesState> {
 
 class MovieTopRatedBLoC extends Bloc<MovieEvent, MoviesState> {
   MovieTopRatedBLoC(this.movieRepository) : super(MoviesEmptyListState());
-
   final MovieRepository movieRepository;
 
   @override
   Stream<MoviesState> mapEventToState(MovieEvent event) async* {
     if (event is MovieLoadPopularEvent) {
-     // if (event.page == 1) yield MoviesLoadingListState();
+      if (event.page == 1) yield MoviesLoadingListState();
       try {
         final List<int> _loadedMoviesId =
             await movieRepository.getPopularMoviesID(event.page);
@@ -74,7 +73,9 @@ class MovieTopRatedBLoC extends Bloc<MovieEvent, MoviesState> {
           _loadedMoviesList.add(movie);
         }));
         yield MoviesLoadedListState(loadedMovies: _loadedMoviesList);
-      } catch (_) {
+      } catch (err) {
+        print(err.toString());
+        throw err;
         yield MoviesListErrorState();
       }
     }

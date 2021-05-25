@@ -4,7 +4,7 @@ import 'package:cinemapp_practice_project/BLoC/movie_card_bloc.dart';
 import 'package:cinemapp_practice_project/BLoC/movies_bloc.dart';
 import 'package:cinemapp_practice_project/BLoC/movies_events_bloc.dart';
 import 'package:cinemapp_practice_project/BLoC/movies_states_bloc.dart';
-import 'package:cinemapp_practice_project/MovieCardWidget.dart';
+import 'package:cinemapp_practice_project/widgets/MovieCardWidget.dart';
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:flutter/gestures.dart';
@@ -37,7 +37,7 @@ class _PopularMovieTabState extends State<PopularMovieTab>
     try {
       final response = await InternetAddress.lookup("google.com");
       if (response.isNotEmpty) isConnected = true;
-    } on SocketException catch (err) {
+    } on SocketException catch (_) {
       isConnected = false;
     }
   }
@@ -47,18 +47,22 @@ class _PopularMovieTabState extends State<PopularMovieTab>
   Widget build(BuildContext context) {
     final MoviePopularBLoC movieBloc = BlocProvider.of<MoviePopularBLoC>(context);
     if (!preload) {
-      movieBloc.add(MovieLoadPopularEvent());
+      movieBloc.add(MovieLoadPopularEvent(page: 1));
       preload = true;
     }
-    return BlocBuilder<MoviePopularBLoC, MoviesState>(builder: (context, state) {
+    return BlocBuilder<MoviePopularBLoC, MoviesState>(
+        builder: (context, state) {
       if (state is MoviesEmptyListState) {
         return Center(
-          child: Text("Что то пошло не так"),
+          child: CircularProgressIndicator(),
         );
       } else if (state is MoviesLoadingListState){
         return Center(child: CircularProgressIndicator());
       }else if (state is MoviesLoadedListState) {
+        print("ololo");
         movieList.addAll(state.loadedMovies);
+      }else if (state is MoviesListErrorState){
+        Text("Чёто не то");
       }
 
       return GridView.builder(

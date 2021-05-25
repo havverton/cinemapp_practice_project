@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<Database> openDB() async {
   final database = openDatabase(
-    join(await getDatabasesPath(), 'movies_test10.db'),
+    join(await getDatabasesPath(), 'movies_test12.db'),
     onCreate: (db, version) {
       db.execute("CREATE TABLE favorites("
           "id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -15,11 +15,12 @@ Future<Database> openDB() async {
           "adult INTEGER,"
           "overview TEXT,"
           "genres TEXT,"
+          "mainGenres TEXT,"
           "posterImg TEXT,"
           "isFavorite INTEGER,"
           "poster TEXT,"
-          "backdrop TEXT,"
-          "category TEXT)");
+          "backdrop TEXT)"
+          );
       return db.execute("CREATE TABLE movies("
           "id INTEGER PRIMARY KEY AUTOINCREMENT,"
           "movie_id INTEGER,"
@@ -29,11 +30,12 @@ Future<Database> openDB() async {
           "adult INTEGER,"
           "overview TEXT,"
           "genres TEXT,"
+          "mainGenres TEXT,"
           "posterPath TEXT,"
           "isFavorite INTEGER,"
           "poster BLOB,"
-          "backdrop BLOB,"
-          "category TEXT)");
+          "backdrop BLOB)"
+          );
     },
     version: 2,
   );
@@ -50,7 +52,7 @@ void createMovieTable() async {
       " voteCount INTEGER,"
       "adult INTEGER,"
       "overview TEXT,"
-      "genres TEXT,"
+      "mainGenres TEXT,"
       "posterImg TEXT,"
       "isFavorite INTEGER)");
 
@@ -62,7 +64,7 @@ void createMovieTable() async {
       " voteCount INTEGER,"
       "adult INTEGER,"
       "overview TEXT,"
-      "genres TEXT,"
+      "mainGenres TEXT,"
       "posterImg TEXT,"
       "isFavorite INTEGER,"
       "category INTEGER)");
@@ -144,7 +146,7 @@ Future<void> addFavorites(Movie movie) async {
 Future<void> removeFromFavorites(Movie movie) async {
   final Database db = await openDB();
   await db.delete("favorites",
-      where: 'movie_id = ?', whereArgs: ['${movie.movie_id}']);
+      where: 'movie_id = ?', whereArgs: ['${movie.movieId}']);
   db.close();
 }
 
@@ -155,14 +157,14 @@ Future<List<Movie>> readDB(final database) async {
   print("В базе: ${maps.length}");
   return List<Movie>.generate(maps.length, (i) {
     return Movie(
-      movie_id: maps[i]['movie_id'],
+      movieId: maps[i]['movie_id'],
       title: maps[i]['title'],
       runtime: maps[i]['runtime'],
       voteCount: maps[i]['voteCount'],
       adult: maps[i]['adult'] == 1 ? true : false,
       overview: maps[i]['overview'],
       genres: maps[i]['genres'],
-      category: maps[i]['category'],
+      mainGenres: maps[i]['mainGenres'],
       poster: maps[i]['poster'],
       backdrop: maps[i]['backdrop'],
       isFavorite: maps[i]['isFavorite'] == 1 ? true : false,
@@ -177,14 +179,14 @@ Future<List<Movie>> readFavorites() async {
   print("В favorites: ${maps.length}");
   return List<Movie>.generate(maps.length, (i) {
     return Movie(
-      movie_id: maps[i]['movie_id'],
+      movieId: maps[i]['movie_id'],
       title: maps[i]['title'],
       runtime: maps[i]['runtime'],
       voteCount: maps[i]['voteCount'],
       adult: maps[i]['adult'] == 1 ? true : false,
       overview: maps[i]['overview'],
       genres: maps[i]['genres'],
-      category: maps[i]['category'],
+      mainGenres: maps[i]['mainGenres'],
       poster: maps[i]['poster'],
       backdrop: maps[i]['backdrop'],
       isFavorite: maps[i]['isFavorite'] == 1 ? true : false,

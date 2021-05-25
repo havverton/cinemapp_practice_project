@@ -46,7 +46,7 @@ class MovieProvider {
     var answer = MovieResponse.fromJson(body);
     var results = answer.results;
     results.forEach((element) {
-      idList.add(element.movie_id);
+      idList.add(element.movieId);
     });
     print("Id загружены: ${idList.length}");
     return idList;
@@ -69,14 +69,13 @@ class MovieProvider {
     var answer = MovieResponse.fromJson(body);
     var results = answer.results;
     results.forEach((element) {
-      idList.add(element.movie_id);
+      idList.add(element.movieId);
     });
     print("Id загружены: ${idList.length}");
     return idList;
   }
 
   Future<Movie> getMoviesInfo(int id) async {
-    List<Movie> movieList = [];
     final _authority = "api.themoviedb.org";
     final _path = "3/movie/$id";
     final _params = {
@@ -101,9 +100,7 @@ class MovieProvider {
     final _uri = Uri.https(_authority, _path, _params);
     final response = await http.get(_uri);
     final body = json.decode(response.body);
-
     var answer = Credits.fromJson(body);
-
     return answer.cast;
   }
 

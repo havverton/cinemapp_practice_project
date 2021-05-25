@@ -27,7 +27,6 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
   Widget build(BuildContext context) {
     final MovieCardFavoriteBLoC movieCardFavoriteBLoC =
         BlocProvider.of<MovieCardFavoriteBLoC>(context);
-
     return BlocProvider(
       create: (context) => MovieCardPosterBLoC(movieRepository),
       child: Container(
@@ -57,7 +56,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                         padding:
                             EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                         child: Hero(
-                            tag: movie.movie_id,
+                            tag: movie.movieId,
                             child: DecoratedBox(
                               child: Container(
                                 width: 166,
@@ -65,7 +64,8 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                                 child: FittedBox(
                                   fit: BoxFit.fill,
                                   child: movie.isFavorite
-                                      ? Image.memory(base64Decode(movie.poster))
+                                      ? Image.memory(
+                                          base64Decode(movie.poster!))
                                       : BlocBuilder<MovieCardPosterBLoC,
                                               MoviesCardState>(
                                           builder: (context, state) {
@@ -82,7 +82,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                                             return CircularProgressIndicator();
                                           }
                                           return Image.memory(
-                                              base64Decode(movie.poster));
+                                              base64Decode(movie.poster!));
                                         }),
                                 ),
                               ),
@@ -230,38 +230,6 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
       ),
     );
   }
-
-  Image myImage;
-
-/*  void _toggleFavorite(Movie movie) {
-    if (movie.isFavorite) {
-      setState(() {
-        movie.isFavorite = false;
-        favDB.removeFromFavorites(movie);
-      });
-    } else {
-      setState(() {
-        movie.isFavorite = true;
-        favDB.addFavorites(movie);
-      });
-    }
-  }*/
-
-/*
-  @override
-  void initState() {
-    super.initState();
-    myImage = Image.asset("assets/images/tenet_poster.jpg");
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    precacheImage(myImage.image, context);
-  }
-*/
-
-
 }
 
 class MovieCardWidget extends StatefulWidget {

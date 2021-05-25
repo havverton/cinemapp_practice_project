@@ -67,14 +67,14 @@ class _MainScaffoldState extends State<MainScaffold> {
 }
 
 class TabNavigator extends StatelessWidget {
-  TabNavigator({this.navigatorKey, this.tabItem});
+  TabNavigator({required this.navigatorKey, required this.tabItem});
 
   final GlobalKey<NavigatorState> navigatorKey;
   final String tabItem;
 
   @override
   Widget build(BuildContext context) {
-    Widget child;
+    late Widget child;
     if (tabItem == "Movies")
       child = FilmPage();
     else if (tabItem == "Favorites")

@@ -5,10 +5,10 @@ import 'package:cinemapp_practice_project/models/MovieModel.dart';
 
 class MovieResponse {
   MovieResponse({
-    this.page,
-    this.results,
-    this.totalPages,
-    this.totalResults,
+    required this.page,
+    required this.results,
+    required this.totalPages,
+    required this.totalResults,
   });
 
   int page;
@@ -18,8 +18,7 @@ class MovieResponse {
 
   factory MovieResponse.fromJson(Map<String, dynamic> json) => MovieResponse(
         page: json["page"],
-        results:
-            List<Movie>.from(json["results"].map((x) => Movie.fromJson(x))),
+        results: List<Movie>.from(json["results"].map((x) => Movie.fromJson(x)))  ,
         totalPages: json["total_pages"],
         totalResults: json["total_results"],
       );

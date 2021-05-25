@@ -110,7 +110,10 @@ class _FilmPageState extends State<FilmPage> {
                           create: (context) => MovieTopRatedBLoC(movieRepository),
                           child: TopRatedMovieTab(),
                         ),
-                        PopularMovieTab(),
+                        BlocProvider<MoviePopularBLoC>(
+                          create: (context) => MoviePopularBLoC(movieRepository),
+                          child: PopularMovieTab(),
+                        ),
                       ],
                     ),
                   )),

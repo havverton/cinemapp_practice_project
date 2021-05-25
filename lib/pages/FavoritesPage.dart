@@ -1,5 +1,5 @@
 import 'package:cinemapp_practice_project/BLoC/movie_card_bloc.dart';
-import 'package:cinemapp_practice_project/MovieCardWidget.dart';
+import 'package:cinemapp_practice_project/widgets/MovieCardWidget.dart';
 import 'package:cinemapp_practice_project/db/movie_local_db.dart' as favDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:cinemapp_practice_project/services/MovieRepository.dart';
@@ -43,7 +43,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
                     return Text("No data");
                   } else {
-                    print("${movies.length} ");
+                    print("${movies!.length} ");
 
                     return buildMovies(movies);
                   }

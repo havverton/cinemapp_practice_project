@@ -7,9 +7,9 @@ String creditsToJson(Credits data) => json.encode(data.toJson());
 
 class Credits {
   Credits({
-    this.id,
-    this.cast,
-    this.crew,
+    required this.id,
+    required this.cast,
+    required this.crew,
   });
 
   int id;
@@ -31,20 +31,20 @@ class Credits {
 
 class Cast {
   Cast({
-    this.adult,
-    this.gender,
-    this.id,
-    this.knownForDepartment,
-    this.name,
-    this.originalName,
-    this.popularity,
-    this.profilePath,
-    this.castId,
-    this.character,
-    this.creditId,
-    this.order,
-    this.department,
-    this.job,
+    required this.adult,
+    required this.gender,
+    required this.id,
+    required this.knownForDepartment,
+    required this.name,
+    required this.originalName,
+    required this.popularity,
+    required this.profilePath,
+    required this.castId,
+    required this.character,
+    required this.creditId,
+    required this.order,
+    required this.department,
+    required this.job,
   });
 
   bool adult;
@@ -66,7 +66,7 @@ class Cast {
     adult: json["adult"],
     gender: json["gender"],
     id: json["id"],
-    knownForDepartment: departmentValues.map[json["known_for_department"]],
+    knownForDepartment: departmentValues.map[json["known_for_department"]]!,
     name: json["name"],
     originalName: json["original_name"],
     popularity: json["popularity"].toDouble(),
@@ -75,7 +75,7 @@ class Cast {
     character: json["character"] == null ? null : json["character"],
     creditId: json["credit_id"],
     order: json["order"] == null ? null : json["order"],
-    department: json["department"] == null ? null : departmentValues.map[json["department"]],
+    department: departmentValues.map[json["department"]]!,
     job: json["job"] == null ? null : json["job"],
   );
 
@@ -87,13 +87,13 @@ class Cast {
     "name": name,
     "original_name": originalName,
     "popularity": popularity,
-    "profile_path": profilePath == null ? null : profilePath,
-    "cast_id": castId == null ? null : castId,
-    "character": character == null ? null : character,
+    "profile_path": profilePath,
+    "cast_id":  castId,
+    "character":  character,
     "credit_id": creditId,
-    "order": order == null ? null : order,
-    "department": department == null ? null : departmentValues.reverse[department],
-    "job": job == null ? null : job,
+    "order":  order,
+    "department":  departmentValues.reverse[department],
+    "job":  job,
   };
 }
 
@@ -115,15 +115,12 @@ final departmentValues = EnumValues({
 });
 
 class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
+  late Map<String, T> map;
+  late Map<T, String> reverseMap;
 
-  EnumValues(this.map);
+   EnumValues(this.map);
 
   Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
     return reverseMap;
   }
 }
