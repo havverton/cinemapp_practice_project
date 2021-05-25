@@ -9,6 +9,7 @@ class MovieRepository{
   Future<Movie> getMovieInfo(int id) async {
     var movie =  await  _movieProvider.getMoviesInfo(id);
     movie.mainGenres = _getGenres(movie.genres ?? List.empty());
+    if(movie.voteAverage == null){ movie.voteAverage = 0.0;}
     return movie;
   }
   String getLowPosterURL(String posterPath) => _movieProvider.getImageLink(posterPath,92).toString();

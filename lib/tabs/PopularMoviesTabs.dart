@@ -59,7 +59,6 @@ class _PopularMovieTabState extends State<PopularMovieTab>
       } else if (state is MoviesLoadingListState){
         return Center(child: CircularProgressIndicator());
       }else if (state is MoviesLoadedListState) {
-        print("ololo");
         movieList.addAll(state.loadedMovies);
       }else if (state is MoviesListErrorState){
         Text("Чёто не то");
@@ -75,7 +74,6 @@ class _PopularMovieTabState extends State<PopularMovieTab>
                 create: (context) => MovieCardFavoriteBLoC(movieRepository),
                 child: MovieCardWidget(movie));
             },
-
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 0.635,
@@ -100,29 +98,4 @@ class _PopularMovieTabState extends State<PopularMovieTab>
     });
     return _scrollController;
   }
-
-/*Widget FutureMovieBuilder(BuildContext context, int index, int typeID) {
-       Future<Movie> getMovie(int index) async {
-      return moviePopularList[index];
-    }
-
-    return FutureBuilder<Movie>(
-      future: getMovie(index),
-      builder: (context, snapshot) {
-        final movie = snapshot.data;
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator());
-          case ConnectionState.done:
-            if (!snapshot.hasData) {
-              print("YES YES YES ${snapshot.data}");
-              return Text("No data");
-            } else {
-              return MovieCardWidget(movie);
-            }
-        }
-        return Center(child: CircularProgressIndicator());
-      },
-    );
-  }*/
 }

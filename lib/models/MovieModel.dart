@@ -1,44 +1,46 @@
 class Movie {
   Movie(
       {required this.adult,
-      required this.genres,
+      this.genres,
         this.mainGenres,
       required this.movieId,
       required this.overview,
-      //this.popularity,
       required this.runtime,
       required this.title,
       this.posterPath,
-      required this.voteCount,
+      this.voteCount,
+      required this.voteAverage,
       required this.isFavorite,
       this.backdropPath,
       this.poster,
       this.backdrop});
 
-  bool adult = false;
-  bool isFavorite = false;
+  bool adult;
+  bool isFavorite;
   List<Genre>? genres;
   String? mainGenres;
   int movieId;
-  String overview = "";
-  int runtime = 0;
+  String overview ;
+  int runtime ;
   String title = "";
   String? posterPath;
-  int voteCount = 0;
+  double voteAverage;
+  int? voteCount;
   String? backdropPath;
   String? poster;
   String? backdrop;
 
   factory Movie.fromJson(Map<String, dynamic> json) => Movie(
-        adult: json["adult"],
-        genres: json["genres"] == null ? null : List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
-        movieId: json["id"],
-        overview: json["overview"],
+        adult: json["adult"]  == null ? false : json["adult"],
+        genres: json["genres"] == null ? List.empty() : List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
+        movieId: json["id"] == null ? 0 : json['id'],
+        overview: json["overview"] == null ? '' : json['overview'],
         posterPath: json["poster_path"],
         backdropPath: json["backdrop_path"],
         runtime: json["runtime"] == null ? 0 : json["runtime"],
-        title: json["title"] == null ? null : json["title"],
-        voteCount: json["vote_count"] == null ? null : json["vote_count"],
+        title: json["title"] == null ? '' : json["title"],
+        voteCount: json["vote_count"],
+        voteAverage: json["vote_average"] is int ? json["vote_average"].toDouble() : json["vote_average"],
         isFavorite: false,
       );
 
@@ -47,13 +49,16 @@ class Movie {
         "runtime": runtime,
         "title": title,
         "voteCount": voteCount,
+        "voteAverage": voteAverage,
         "adult": adult == true ? 1 : 0,
         "mainGenres": mainGenres,
         "overview": overview,
-        //"voteAverage": voteAverage == null ? null : voteAverage,
+        "posterPath" : posterPath,
+        "voteAverage": voteAverage ,
         "isFavorite": isFavorite == true ? 1 : 0,
         "poster": poster,
-        "backdrop": backdrop
+        "backdrop": backdrop,
+        "backdropPath" : ""
       };
 }
 

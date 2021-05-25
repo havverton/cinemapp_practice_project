@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<Database> openDB() async {
   final database = openDatabase(
-    join(await getDatabasesPath(), 'movies_test12.db'),
+    join(await getDatabasesPath(), 'movies_testt7.db'),
     onCreate: (db, version) {
       db.execute("CREATE TABLE favorites("
           "id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -12,11 +12,12 @@ Future<Database> openDB() async {
           " title TEXT,"
           "runtime INTEGER,"
           " voteCount INTEGER,"
+          " voteAverage REAL,"
           "adult INTEGER,"
           "overview TEXT,"
-          "genres TEXT,"
           "mainGenres TEXT,"
-          "posterImg TEXT,"
+          "posterPath TEXT,"
+          "backdropPath TEXT,"
           "isFavorite INTEGER,"
           "poster TEXT,"
           "backdrop TEXT)"
@@ -27,11 +28,12 @@ Future<Database> openDB() async {
           " title TEXT,"
           "runtime INTEGER,"
           "voteCount INTEGER,"
+          " voteAverage REAL,"
           "adult INTEGER,"
           "overview TEXT,"
-          "genres TEXT,"
           "mainGenres TEXT,"
           "posterPath TEXT,"
+          "backdropPath TEXT,"
           "isFavorite INTEGER,"
           "poster BLOB,"
           "backdrop BLOB)"
@@ -50,10 +52,11 @@ void createMovieTable() async {
       " title TEXT,"
       "runtime INTEGER,"
       " voteCount INTEGER,"
+      " voteAverage REAL,"
       "adult INTEGER,"
       "overview TEXT,"
       "mainGenres TEXT,"
-      "posterImg TEXT,"
+      "posterPath TEXT,"
       "isFavorite INTEGER)");
 
   return await db.execute("CREATE TABLE movies("
@@ -62,10 +65,11 @@ void createMovieTable() async {
       " title TEXT,"
       "runtime INTEGER,"
       " voteCount INTEGER,"
+      " voteAverage REAL,"
       "adult INTEGER,"
       "overview TEXT,"
       "mainGenres TEXT,"
-      "posterImg TEXT,"
+      "posterPath TEXT,"
       "isFavorite INTEGER,"
       "category INTEGER)");
 }
@@ -75,43 +79,6 @@ void recreateTable() async {
   await db.execute("DROP TABLE IF EXISTS movies");
   createMovieTable();
 }
-/*Future<List<Movie>> getPopular() async{
-  var database =  await openDB();
-  final List<Map<String, dynamic>> maps = await  database.query('movies', columns: ['category'], where: '"category" = ?', whereArgs: ['1']);
-  print("В базе популярных: ${maps.length}");
-  return List<Movie>.generate(maps.length, (i) {
-    print("${maps[i]}");
-    return Movie(
-        id: maps[i]['id'],
-        title: maps[i]['title'],
-        runtime: maps[i]['runtime'],
-        voteCount: maps[i]['voteCount'],
-        adult: maps[i]['adult'],
-        overview: maps[i]['overview'],
-        genres: maps[i]['genres'],
-        posterPath: maps[i]['posterPath'],
-        category: maps[i]['category']
-    );
-  });
-}
-Future<List<Movie>> getTopRated() async{
-  var database =  await openDB();
-  final List<Map<String, dynamic>> maps = await  database.query('movies', columns: ['category'], where: '"category" = ?', whereArgs: ['2']);
-  print("В базе популярных: ${maps.length}");
-  return List<Movie>.generate(maps.length, (i) {
-    print("${maps[i]}");
-    return Movie(
-        id: maps[i]['id'],
-        title: maps[i]['title'],
-        runtime: maps[i]['runtime'],
-        voteCount: maps[i]['voteCount'],
-        adult: maps[i]['adult'],
-        overview: maps[i]['overview'],
-        genres: maps[i]['genres'],
-        category: maps[i]['category']
-    );
-  });
-}*/
 
 Future<void> insertList(List<Movie> movies, final database) async {
   final Database db = await database;
@@ -161,12 +128,15 @@ Future<List<Movie>> readDB(final database) async {
       title: maps[i]['title'],
       runtime: maps[i]['runtime'],
       voteCount: maps[i]['voteCount'],
+      voteAverage: maps[i]['voteAverage'],
       adult: maps[i]['adult'] == 1 ? true : false,
       overview: maps[i]['overview'],
       genres: maps[i]['genres'],
       mainGenres: maps[i]['mainGenres'],
+      posterPath: maps[i]['posterPath'],
       poster: maps[i]['poster'],
       backdrop: maps[i]['backdrop'],
+      backdropPath: maps[i]['backdropPath'],
       isFavorite: maps[i]['isFavorite'] == 1 ? true : false,
     );
   });
@@ -183,11 +153,14 @@ Future<List<Movie>> readFavorites() async {
       title: maps[i]['title'],
       runtime: maps[i]['runtime'],
       voteCount: maps[i]['voteCount'],
+      voteAverage: maps[i]['voteAverage'],
       adult: maps[i]['adult'] == 1 ? true : false,
       overview: maps[i]['overview'],
       genres: maps[i]['genres'],
       mainGenres: maps[i]['mainGenres'],
       poster: maps[i]['poster'],
+      posterPath: maps[i]['posterPath'],
+      backdropPath: maps[i]['backdropPath'],
       backdrop: maps[i]['backdrop'],
       isFavorite: maps[i]['isFavorite'] == 1 ? true : false,
     );

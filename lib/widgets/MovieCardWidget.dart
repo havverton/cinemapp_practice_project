@@ -5,6 +5,8 @@ import 'package:cinemapp_practice_project/BLoC/movie_card_events_bloc.dart';
 import 'package:cinemapp_practice_project/BLoC/movie_card_states_bloc.dart';
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:cinemapp_practice_project/services/MovieRepository.dart';
+import 'package:cinemapp_practice_project/widgets/RatingBarWidget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,10 +65,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                                 height: 248,
                                 child: FittedBox(
                                   fit: BoxFit.fill,
-                                  child: movie.isFavorite
-                                      ? Image.memory(
-                                          base64Decode(movie.poster!))
-                                      : BlocBuilder<MovieCardPosterBLoC,
+                                  child: BlocBuilder<MovieCardPosterBLoC,
                                               MoviesCardState>(
                                           builder: (context, state) {
                                           if (state is PosterLowLoadedState) {
@@ -160,7 +159,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                             Container(
                               padding: EdgeInsets.symmetric(vertical: 2),
                               child: Text(
-                                "${movie.genres}",
+                                "${movie.mainGenres}",
                                 style: TextStyle(
                                     fontSize: 10, color: kSecondaryColor),
                               ),
@@ -169,20 +168,8 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                               padding: EdgeInsets.only(top: 2.0),
                               child: Row(
                                 children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: kSecondaryColor,
-                                    size: 10,
-                                  ),
-                                  Icon(Icons.star,
-                                      color: kSecondaryColor, size: 10),
-                                  Icon(Icons.star,
-                                      color: kSecondaryColor, size: 10),
-                                  Icon(Icons.star,
-                                      color: kSecondaryColor, size: 10),
-                                  Icon(Icons.star,
-                                      color: kSecondaryColor, size: 10),
-                                  Text("${movie.voteCount} reviews",
+                                  RatingBarWidget(movie.voteAverage),
+                                  Text("${movie.voteCount} votes",
                                       style: TextStyle(
                                           fontSize: 10,
                                           color: Color(0xFF6D6D80)))
@@ -195,35 +182,38 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                     )
                   ]),
               Expanded(
-                  child: Column(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "${(movie.title.length < 25) ? movie.title : (movie.title.substring(0, 20) + "...")}",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "${(movie.title.length < 25) ? movie.title : (movie.title.substring(0, 20) + "...")}",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(6, 0, 6, 8),
-                    child: Text(
-                      "${movie.runtime} mins",
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Color(0xFF565665),
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      padding: EdgeInsets.fromLTRB(6, 0, 6, 8),
+                      child: Text(
+                        "${movie.runtime} mins",
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Color(0xFF565665),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  )
+                    )
                 ],
-              )),
+              ),
+                  )),
             ]),
           ),
         ),
