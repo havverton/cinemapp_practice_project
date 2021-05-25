@@ -31,59 +31,59 @@ class Credits {
 
 class Cast {
   Cast({
-    required this.adult,
+   // required this.adult,
     required this.gender,
     required this.id,
-    required this.knownForDepartment,
+    //required this.knownForDepartment,
     required this.name,
-    required this.originalName,
+    this.originalName,
     required this.popularity,
-    required this.profilePath,
-    required this.castId,
-    required this.character,
-    required this.creditId,
-    required this.order,
-    required this.department,
-    required this.job,
+    this.profilePath,
+     this.castId,
+    this.character,
+    this.creditId,
+    this.order,
+    //required this.department,
+     this.job,
   });
 
-  bool adult;
+ // bool adult;
   int gender;
   int id;
-  Department knownForDepartment;
+  //Department knownForDepartment;
   String name;
-  String originalName;
+  String? originalName;
   double popularity;
-  String profilePath;
-  int castId;
-  String character;
-  String creditId;
-  int order;
-  Department department;
-  String job;
+  String? profilePath;
+  int? castId;
+  String? character;
+  String? creditId;
+  int? order;
+  //Department department;
+  String? job;
 
   factory Cast.fromJson(Map<String, dynamic> json) => Cast(
-    adult: json["adult"],
+    //adult: json["adult"],
     gender: json["gender"],
     id: json["id"],
-    knownForDepartment: departmentValues.map[json["known_for_department"]]!,
+    //knownForDepartment: departmentValues.map[json["known_for_department"]]!,
     name: json["name"],
-    originalName: json["original_name"],
+    originalName: json["original_name"]== null ? null : json["original_name"],
     popularity: json["popularity"].toDouble(),
     profilePath: json["profile_path"] == null ? null : json["profile_path"],
     castId: json["cast_id"] == null ? null : json["cast_id"],
     character: json["character"] == null ? null : json["character"],
     creditId: json["credit_id"],
     order: json["order"] == null ? null : json["order"],
-    department: departmentValues.map[json["department"]]!,
+    //department: departmentValues.map[json["department"]]!,
     job: json["job"] == null ? null : json["job"],
   );
 
   Map<String, dynamic> toJson() => {
-    "adult": adult,
+   // "adult": adult,
     "gender": gender,
     "id": id,
-    "known_for_department": departmentValues.reverse[knownForDepartment],
+   // "known_for_department": departmentValues.reverse[knownForDepartment],
     "name": name,
     "original_name": originalName,
     "popularity": popularity,
@@ -92,7 +92,7 @@ class Cast {
     "character":  character,
     "credit_id": creditId,
     "order":  order,
-    "department":  departmentValues.reverse[department],
+  //  "department":  departmentValues.reverse[department],
     "job":  job,
   };
 }
