@@ -54,7 +54,6 @@ class Movie {
         "mainGenres": mainGenres,
         "overview": overview,
         "posterPath" : posterPath,
-        "voteAverage": voteAverage ,
         "isFavorite": isFavorite == true ? 1 : 0,
         "poster": poster,
         "backdrop": backdrop,

@@ -27,10 +27,13 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
 
   @override
   Widget build(BuildContext context) {
-    final MovieCardFavoriteBLoC movieCardFavoriteBLoC =
-        BlocProvider.of<MovieCardFavoriteBLoC>(context);
-    return BlocProvider(
-      create: (context) => MovieCardPosterBLoC(movieRepository),
+
+    return MultiBlocProvider(
+      providers: [BlocProvider(
+        create: (context) => MovieCardPosterBLoC(movieRepository),),
+        BlocProvider(
+          create: (context) => MovieCardFavoriteBLoC(movieRepository),),
+      ],
       child: Container(
         width: 197,
         height: 296,
@@ -75,8 +78,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                                             return state.loadedImage;
                                           } else if (state
                                               is PosterEmptyState) {
-                                            context
-                                                .read<MovieCardPosterBLoC>()
+                                            BlocProvider.of<MovieCardPosterBLoC>(context)
                                                 .add(LoadPosterEvent(movie));
                                             return CircularProgressIndicator();
                                           }
@@ -123,7 +125,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                         top: 1,
                         right: 1,
                         child: GestureDetector(
-                          onTap: () => movieCardFavoriteBLoC
+                          onTap: () => BlocProvider.of<MovieCardFavoriteBLoC>(context)
                               .add(AddToFavoriteEvent(movie)),
                           child: BlocBuilder<MovieCardFavoriteBLoC,
                               MoviesCardState>(builder: (context, state) {
@@ -133,7 +135,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                             } else if (state is NotFavoriteState) {
                               test = false;
                             } else {
-                              movieCardFavoriteBLoC
+                              BlocProvider.of<MovieCardFavoriteBLoC>(context)
                                   .add(CheckFavoriteEvent(movie));
                               test = false;
                             }
@@ -192,7 +194,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget>
                       padding: EdgeInsets.symmetric(horizontal: 6.0),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "${(movie.title.length < 25) ? movie.title : (movie.title.substring(0, 20) + "...")}",
+                        "${(movie.title.length < 30) ? movie.title : (movie.title.substring(0, 27) + "...")}",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white,

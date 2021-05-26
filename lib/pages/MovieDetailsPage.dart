@@ -1,4 +1,3 @@
-import 'package:cinemapp_practice_project/models/CreditsModel.dart';
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:cinemapp_practice_project/widgets/DetailsFavouriteButton.dart';
@@ -29,7 +28,8 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget> {
     return Scaffold(
       body: SingleChildScrollView(
         child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: MediaQuery. of(context). size. height),
+          constraints:
+              BoxConstraints(minHeight: MediaQuery.of(context).size.height),
           child: Container(
             color: kMainBackGrndColor,
             child: Column(
@@ -42,7 +42,7 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget> {
                       child: Container(
                         child: DecoratedBox(
                           child: Image.network(MovieRepository()
-                              .getBackDropURL(movie.backdropPath!)),
+                              .getBackDropURL(movie.backdropPath ?? '')),
                           position: DecorationPosition.foreground,
                           decoration: new BoxDecoration(
                             gradient: LinearGradient(
@@ -95,7 +95,7 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget> {
                     children: [
                       Flexible(
                         child: Text(
-                          "${movie.title}",
+                          "${movie.title ?? ' '}",
                           textDirection: TextDirection.ltr,
                           style: TextStyle(
                             fontSize: 40,
@@ -108,7 +108,7 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget> {
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 4.0),
                           child: Text(
-                            "${movie.mainGenres}",
+                            "${movie.mainGenres ?? ''}",
                             style: TextStyle(
                               fontSize: 14,
                               color: kSecondaryColor,
@@ -122,7 +122,7 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget> {
                           child: Row(
                             children: [
                               RatingBarWidget(movie.voteAverage),
-                              Text("${movie.voteCount} votes",
+                              Text("${movie.voteCount ?? 0} votes",
                                   style: TextStyle(
                                       fontSize: 14, color: Color(0xFF6D6D80)))
                             ],
@@ -137,8 +137,9 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget> {
                             children: [
                               Text("STORYLINE",
                                   style: TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold)),
-                              Text("${movie.overview}",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                              Text("${movie.overview ?? " "}",
                                   style: TextStyle(fontSize: 14))
                             ],
                           ),
@@ -177,11 +178,13 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget> {
                                   borderRadius: BorderRadius.circular(30),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      gradient: RadialGradient(
-                                          colors: [Color(0xFF4E4E63), Color(0xFF212130)],
-                                        radius: 2,
-                                      )
-                                    ),
+                                        gradient: RadialGradient(
+                                      colors: [
+                                        Color(0xFF4E4E63),
+                                        Color(0xFF212130)
+                                      ],
+                                      radius: 2,
+                                    )),
                                     child: InkWell(
                                       onTap: () => {print("тык")},
                                       child: Align(
@@ -214,4 +217,3 @@ class _MovieDetailWidgetState extends State<MovieDetailsWidget> {
     });
   }
 }
-

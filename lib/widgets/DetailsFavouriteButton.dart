@@ -23,11 +23,6 @@ class _DetailsFavouriteButtonState extends State<DetailsFavouriteButton> {
   Movie movie;
 
   _DetailsFavouriteButtonState(this.movie);
-
-  int _width = 180;
-
-  int _height = 60;
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

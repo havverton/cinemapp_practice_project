@@ -33,7 +33,6 @@ class MovieCastBLoC extends Bloc<MovieCastEvent, MovieCastState> {
         List<Cast> cast = await movieRepository.getActors(event.movieID);
         yield LoadedCastState(actors: cast);
       }catch(err){
-        print("${err.toString()}");
         yield ErrorCastState();
       }
     }

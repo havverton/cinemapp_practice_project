@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieCastWidget extends StatefulWidget {
-  int movieID;
+ final int movieID;
 
   MovieCastWidget(this.movieID);
 
@@ -16,7 +16,7 @@ class MovieCastWidget extends StatefulWidget {
 }
 
 class _MovieCastWidgetState extends State<MovieCastWidget> {
-  int movieID;
+  final int movieID;
 
   _MovieCastWidgetState(this.movieID);
 
@@ -62,7 +62,7 @@ class _MovieCastWidgetState extends State<MovieCastWidget> {
 }
 
 class ActorsCardWidget extends StatelessWidget {
-  Cast actor;
+  final Cast actor;
 
   ActorsCardWidget(this.actor);
 

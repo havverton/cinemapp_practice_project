@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingBarWidget extends StatefulWidget {
-  double rating;
+  final double rating;
   RatingBarWidget(this.rating) : super();
 
   @override

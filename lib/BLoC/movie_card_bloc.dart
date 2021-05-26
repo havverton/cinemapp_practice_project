@@ -18,14 +18,12 @@ class MovieCardFavoriteBLoC extends Bloc<MovieCardEvent, MoviesCardState> {
       if (favorite) {
         event.movie.isFavorite = false;
         await favDB.removeFromFavorites(event.movie);
-        print("Fav: $favorite");
         yield NotFavoriteState();
       } else {
         var movie = event.movie;
         movie.isFavorite = true;
         // movie.backdrop = await movieRepository.getBackDrop(movie.backdropPath);
         //movie.poster = await movieRepository.getBackDrop(movie.posterPath);
-        print("${movie.poster}");
         await favDB.addFavorites(movie);
         yield InFavoriteState();
       }

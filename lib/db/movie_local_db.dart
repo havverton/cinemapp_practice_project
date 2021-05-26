@@ -121,7 +121,6 @@ Future<List<Movie>> readDB(final database) async {
   // Get a reference to the database.
   final Database db = await database;
   final List<Map<String, dynamic>> maps = await db.query('movies');
-  print("В базе: ${maps.length}");
   return List<Movie>.generate(maps.length, (i) {
     return Movie(
       movieId: maps[i]['movie_id'],
@@ -146,7 +145,6 @@ Future<List<Movie>> readFavorites() async {
   // Get a reference to the database.
   final Database db = await openDB();
   final List<Map<String, dynamic>> maps = await db.query('favorites');
-  print("В favorites: ${maps.length}");
   return List<Movie>.generate(maps.length, (i) {
     return Movie(
       movieId: maps[i]['movie_id'],

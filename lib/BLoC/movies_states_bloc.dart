@@ -1,15 +1,15 @@
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 
-abstract class MoviesState {}
+abstract class MovieListState {}
 
-class MoviesEmptyListState extends MoviesState {}
+class MoviesEmptyListState extends MovieListState {}
 
-class MoviesLoadingListState extends MoviesState {}
+class MoviesLoadingListState extends MovieListState {}
 
-class MoviesLoadedListState extends MoviesState {
+class MoviesLoadedListState extends MovieListState {
   List<Movie> loadedMovies;
 
   MoviesLoadedListState({required this.loadedMovies});
 }
 
-class MoviesListErrorState extends MoviesState {}
+class MoviesListErrorState extends MovieListState {}
