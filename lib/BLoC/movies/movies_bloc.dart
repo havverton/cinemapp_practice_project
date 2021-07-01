@@ -1,5 +1,5 @@
-import 'package:cinemapp_practice_project/BLoC/movies_events_bloc.dart';
-import 'package:cinemapp_practice_project/BLoC/movies_states_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/movies/movies_events_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/movies/movies_states_bloc.dart';
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

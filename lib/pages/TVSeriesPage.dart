@@ -1,22 +1,32 @@
-import 'package:cinemapp_practice_project/utilities/widgets.dart';
 import 'package:cinemapp_practice_project/widgets/movie/MovieListWidget.dart';
 import 'package:cinemapp_practice_project/utilities/constants.dart';
+import 'package:cinemapp_practice_project/widgets/series/SeriesListWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class FilmPage extends StatefulWidget {
+class TVSeriesPage extends StatefulWidget {
   @override
-  _FilmPageState createState() => _FilmPageState();
+  _TVSeriesPageState createState() => _TVSeriesPageState();
 }
 
-class _FilmPageState extends State<FilmPage> {
+class _TVSeriesPageState extends State<TVSeriesPage> {
+  var isConnected = false;
+
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          HeaderWidget(),
+          Container(
+            height: 44,
+            color: kMainBackGrndColor,
+          ),
+          Container(
+            height: 40,
+            color: kMainBackGrndColor,
+            child: Text("Cinemapp"),
+          ),
           Expanded(
             child: DefaultTabController(
-              length: 3,
+              length: 2,
               child: Scaffold(
                   backgroundColor: kMainBackGrndColor,
                   appBar: TabBar(
@@ -30,20 +40,17 @@ class _FilmPageState extends State<FilmPage> {
                       Tab(
                         child: Text("Top Rated"),
                       ),
-                      Tab(
-                        child: Text("Upcoming"),
-                      ),
+
                     ],
                   ),
                   body: Container(
-                      color: kMainBackGrndColor,
-                      child: TabBarView(
-                        children: [
-                          MovieListWidget(1),
-                          MovieListWidget(2),
-                          MovieListWidget(3),
-                        ],
-                      ),
+                    color: kMainBackGrndColor,
+                    child: TabBarView(
+                      children: [
+                        SeriesListWidget(1),
+                        SeriesListWidget(2),
+                      ],
+                    ),
                   )),
             ),
           ),

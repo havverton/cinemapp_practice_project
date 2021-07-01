@@ -1,5 +1,5 @@
-import 'package:cinemapp_practice_project/BLoC/movie_card_bloc.dart';
-import 'package:cinemapp_practice_project/widgets/MovieCardWidget.dart';
+import 'package:cinemapp_practice_project/BLoC/cards/movie_card_bloc.dart';
+import 'package:cinemapp_practice_project/widgets/movie/MovieCardWidget.dart';
 import 'package:cinemapp_practice_project/db/movie_local_db.dart' as favDB;
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:cinemapp_practice_project/services/MovieRepository.dart';

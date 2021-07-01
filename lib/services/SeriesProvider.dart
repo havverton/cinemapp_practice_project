@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:cinemapp_practice_project/keys.dart';
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:cinemapp_practice_project/models/MovieResponseModel.dart';
+import 'package:cinemapp_practice_project/models/SeriesModel.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/CreditsModel.dart';
 
-class MovieProvider {
+class SeriesProvider {
   final List<Locale> systemLocales = WidgetsBinding.instance!.window.locales;
   String? countryCode = WidgetsBinding.instance!.window.locales.first.countryCode != "RU" ? "US" :  WidgetsBinding.instance!.window.locales.first.countryCode;
   String? langCode = WidgetsBinding.instance!.window.locales.first.languageCode != "ru" ? "en" : WidgetsBinding.instance!.window.locales.first.languageCode;
@@ -16,76 +17,49 @@ class MovieProvider {
 
   Future<List<int>> getPopularIDs(int page) async {
     final _authority = "api.themoviedb.org";
-    final _path = "/3/movie/popular";
+    final _path = "/3/tv/popular";
     final _params = {
       "api_key": "$apiKey",
       "language":  "$langCode-$countryCode",
-      "page": "$page",
-      "region": "$langCode"
+      "page": "$page"
     };
     final _uri = Uri.https(_authority, _path, _params);
     List<int> idList = [];
 
     final response = await http.get(_uri);
     final body = json.decode(response.body);
-    var answer = MovieResponse.fromJson(body);
+    var answer = SeriesResponse.fromJson(body);
     var results = answer.results;
     results.forEach((element) {
-      idList.add(element.movieId);
+      idList.add(element.id);
     });
     return idList;
   }
 
   Future<List<int>> getTopRatedIDs(int page) async {
     final _authority = "api.themoviedb.org";
-    final _path = "/3/movie/top_rated";
+    final _path = "/3/tv/top_rated";
     final _params = {
       "api_key": "$apiKey",
       "language":  "$langCode-$countryCode",
-      "page": "$page",
-      "region": "$langCode"
+      "page": "$page"
     };
     final _uri = Uri.https(_authority, _path, _params);
     List<int> idList = [];
 
     final response = await http.get(_uri);
     final body = json.decode(response.body);
-    var answer = MovieResponse.fromJson(body);
+    var answer = SeriesResponse.fromJson(body);
     var results = answer.results;
     results.forEach((element) {
-      idList.add(element.movieId);
+      idList.add(element.id);
     });
     return idList;
   }
 
-  Future<List<int>> getUpcomingIDs(int page) async {
-
-    print("Это код: $countryCode");
-
+  Future<Series> getSeriesInfo(int id) async {
     final _authority = "api.themoviedb.org";
-    final _path = "/3/movie/upcoming";
-    final _params = {
-      "api_key": "$apiKey",
-      "language": "$langCode-$countryCode",
-      "page": "$page",
-      "region": "$langCode"
-    };
-    final _uri = Uri.https(_authority, _path, _params);
-    List<int> idList = [];
-
-    final response = await http.get(_uri);
-    final body = json.decode(response.body);
-    var answer = MovieResponse.fromJson(body);
-    var results = answer.results;
-    results.forEach((element) {
-      idList.add(element.movieId);
-    });
-    return idList;
-  }
-
-  Future<Movie> getMoviesInfo(int id) async {
-    final _authority = "api.themoviedb.org";
-    final _path = "3/movie/$id";
+    final _path = "3/tv/$id";
     final _params = {
       "api_key": "$apiKey",
       "language": "$langCode-$countryCode",
@@ -93,14 +67,14 @@ class MovieProvider {
     final _uri = Uri.https(_authority, _path, _params);
     final response = await http.get(_uri);
     final body = json.decode(response.body);
-    var answer = Movie.fromJson(body);
+    var answer = Series.fromJson(body);
 
     return answer;
   }
 
-  Future<List<Cast>> getMovieActors(int movieID) async {
+  Future<List<Cast>> getSeriesActors(int seriesID) async {
     final _authority = "api.themoviedb.org";
-    final _path = "3/movie/$movieID/credits";
+    final _path = "3/tv/$seriesID/credits";
     final _params = {
       "api_key": "$apiKey",
       "language": "$langCode-$countryCode",

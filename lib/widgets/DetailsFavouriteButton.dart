@@ -1,6 +1,6 @@
-import 'package:cinemapp_practice_project/BLoC/movie_card_bloc.dart';
-import 'package:cinemapp_practice_project/BLoC/movie_card_events_bloc.dart';
-import 'package:cinemapp_practice_project/BLoC/movie_card_states_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/cards/movie_card_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/cards/movie_card_events_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/cards/movie_card_states_bloc.dart';
 import 'package:cinemapp_practice_project/models/MovieModel.dart';
 import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:flutter/material.dart';

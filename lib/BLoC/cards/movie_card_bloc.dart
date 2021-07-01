@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cinemapp_practice_project/BLoC/movie_card_events_bloc.dart';
-import 'package:cinemapp_practice_project/BLoC/movie_card_states_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/cards/movie_card_events_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/cards/movie_card_states_bloc.dart';
 import 'package:cinemapp_practice_project/db/movie_local_db.dart' as favDB;
 import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:flutter/material.dart';

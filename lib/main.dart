@@ -1,5 +1,7 @@
 import 'package:cinemapp_practice_project/pages/FavoritesPage.dart';
 import 'package:cinemapp_practice_project/pages/FilmPage.dart';
+import 'package:cinemapp_practice_project/pages/SearchPage.dart';
+import 'package:cinemapp_practice_project/pages/TVSeriesPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +30,8 @@ class _MainScaffoldState extends State<MainScaffold> {
   final List<Widget> _pages = [
     FilmPage(),
     FavoritesPage(),
-    FilmPage(),
+    TVSeriesPage(),
+    SearchPage()
   ];
 
   @override
@@ -48,8 +51,12 @@ class _MainScaffoldState extends State<MainScaffold> {
             label: 'Favorites',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_rounded),
-            label: 'Profile',
+            icon: Icon(Icons.airplay),
+            label: 'TV Series',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
           ),
         ],
         selectedItemColor: Color(0xFFFF3365),
@@ -66,7 +73,7 @@ class _MainScaffoldState extends State<MainScaffold> {
   }
 }
 
-class TabNavigator extends StatelessWidget {
+/*class TabNavigator extends StatelessWidget {
   TabNavigator({required this.navigatorKey, required this.tabItem});
 
   final GlobalKey<NavigatorState> navigatorKey;
@@ -74,13 +81,6 @@ class TabNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late Widget child;
-    if (tabItem == "Movies")
-      child = FilmPage();
-    else if (tabItem == "Favorites")
-      child = FavoritesPage();
-    else if (tabItem == "Profile") child = FilmPage();
-
     return Navigator(
       key: navigatorKey,
       onGenerateRoute: (routeSettings) {
@@ -88,4 +88,4 @@ class TabNavigator extends StatelessWidget {
       },
     );
   }
-}
+}*/

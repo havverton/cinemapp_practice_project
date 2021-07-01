@@ -39,7 +39,7 @@ class Cast {
     this.originalName,
     required this.popularity,
     this.profilePath,
-     this.castId,
+    this.castId,
     this.character,
     this.creditId,
     this.order,

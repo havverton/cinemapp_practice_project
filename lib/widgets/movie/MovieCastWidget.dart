@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cinemapp_practice_project/BLoC/movie_cast_bloc.dart';
+import 'package:cinemapp_practice_project/BLoC/movies/movie_cast_bloc.dart';
 import 'package:cinemapp_practice_project/models/CreditsModel.dart';
 import 'package:cinemapp_practice_project/services/MovieRepository.dart';
 import 'package:flutter/material.dart';
